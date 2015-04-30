@@ -1,0 +1,109 @@
+.arrowlistmenu{
+width: 100%;
+}
+
+
+.arrowlistmenu ul{
+list-style-type: none;
+margin: 0;
+padding: 0;
+margin-bottom: 6px; /*bottom spacing between each UL and rest of content*/
+}
+
+.arrowlistmenu ul li{
+padding-bottom: 2px; /*bottom spacing between menu items*/
+}
+
+.arrowlistmenu ul li a{
+color: #000000;
+background: url(images/arrowbullet.png) no-repeat center left #F2F6FF; /*custom bullet list image*/
+display: block;
+padding: 8px 0;
+padding-left: 19px; /*link text is indented 19px*/
+text-decoration: none;
+font-weight: medium;
+border: 1px solid #dadada;
+font-family:verdana, helvetica; font-size:13px; 
+}
+
+/*.arrowlistmenu ul li a:visited{
+color: #A70303;
+} */
+
+.arrowlistmenu ul li a:hover{ /*hover state CSS*/
+background-color: #CFDEFF;
+display: block;
+}
+
+.bar_top{
+	height: 45px;
+	width: 95.7%;
+	font-family:verdana, helvetica; font-size:14px; 
+}
+
+ul.topnav {
+	list-style: none;
+	padding: 0 20px;	
+	margin: 0;
+	float: left;
+	width: 100%;
+	background: #222;
+	font-size: 1.2em;
+	background: url(images/topnav_bg.gif) repeat-x;
+}
+ul.topnav li {
+	float: left;
+	margin: 0;	
+	padding: 0 15px 0 0;
+	position: relative; /*--Declare X and Y axis base for sub navigation--*/
+}
+ul.topnav li a{
+	padding: 10px 5px;
+	color: #fff;
+	display: block;
+	text-decoration: none;
+	float: left;
+	font-size: 14px;
+}
+ul.topnav li a:hover{
+	background: url(images/topnav_hover.gif) no-repeat center top;
+}
+ul.topnav li span { /*--Drop down trigger styles--*/
+	width: 17px;
+	height: 35px;
+	float: left;
+	background: url(images/tabletree-arrow.gif) no-repeat;
+	position:relative;
+
+
+}
+/*--ul.topnav li span.subhover {background-position: center bottom; cursor: pointer;} Hover effect for trigger--*/
+ul.topnav li ul.subnav {
+	list-style: none;
+	position: absolute; /*--Important - Keeps subnav from affecting main navigation flow--*/
+	left: 0; top: 35px;
+	background: #333;
+	margin: 0; padding: 0;
+	display: none;
+	float: left;
+	width: 170px;
+	border: 1px solid #111;
+}
+ul.topnav li ul.subnav li{
+	margin: 0; padding: 0;
+	border-top: 1px solid #252525; /*--Create bevel effect--*/
+	border-bottom: 1px solid #444; /*--Create bevel effect--*/
+	clear: both;
+	width: 170px;
+}
+html ul.topnav li ul.subnav li a {
+	float: left;
+	width: 145px;
+	background: #333 url(images/dropdown_linkbg.gif) no-repeat 10px center;
+	padding-left: 20px;
+	font-size: 13px;
+}
+html ul.topnav li ul.subnav li a:hover { /*--Hover effect for subnav links--*/
+	background: #222 url(images/dropdown_linkbg.gif) no-repeat 10px center; 
+}
+

@@ -1,0 +1,46 @@
+{% extends "catalog.html" %}
+
+{% load catalog_filters %}
+
+{% block content %}
+
+<div id="add" class="add_form">
+
+<h1>Your Order has been Placed with a transaction ID <span style ="color:green; "> {{ order.transaction_id }} </span> </i></h1>
+    <div class="formbody">
+
+	<table id="receipt">
+		<thead>
+		<tr>
+			<th scope="col">Name</th>
+			<th scope="col">Price</th>
+			<th scope="col">Quantity</th>
+			<th class="right" scope="col">Total</th>
+		</tr>
+		</thead>
+		<tfoot>
+			<tr>
+				<td colspan="4" class="right" style="height:30px;">
+				Order Total: {{ order.total|currency }}
+				</td>
+			</tr>
+		</tfoot>
+		<tbody>
+		{% for item in order_items %}
+		<tr>
+			<td>{{ item.name }}</td>
+			<td>{{ item.price|currency }}</td>
+			<td>{{ item.quantity }}</td>
+			<td class="right">{{ item.total|currency }}</td>
+		</tr>
+		{% endfor %}
+		</tbody>
+	</table>
+
+<br/><br/>
+
+Pay {{ order.total|currency }} using MTN mobile Money to the Number <span style ="color:red; "> 0772084725.</span><br/> Give the reason as  <span style ="color:red; ">{{ order.transaction_id }} </span> <br/>
+Please ensure that you enter the correct reason ID<br/><br/>
+Nuaza Team will get to you in a while to arrange for delivery
+</div></div>
+{% endblock %}

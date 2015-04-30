@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head> 
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>{% block title %}{% if page_title %}{{ page_title }} :: {% endif %} {{ site_name }}{% endblock %}</title>
+	<meta name="keywords" content="{{ meta_keywords }}" />
+	<meta name="description" content="{{ meta_description }}" />
+	<link rel="Stylesheet" type="text/css" href="{{MEDIA_URL}}css/dashboard.css" />
+
+</head>
+
+<body BACKGROUND="bg.jpg" >
+
+<div class = "main_dashboard">
+  <div class= "left_dash">
+	<a href='/home/'><div id = "landing-site"></div></a><div class='cb'></div>
+<!--	<a href='/bid-request/'><div id = "landing-bid"></div></a><div class='cb'></div> -->
+	<a href='/Buy-a-Product/'><div id = "landing-bid"></div></a><div class='cb'></div>
+	<a href='/add_product/'><div id = "landing-sell"></div></a><div class='cb'></div>
+	<a href='/contact/'><div id = "landing-help"></div></a><div class='cb'></div>
+  </div>
+  <div class= "right_dash">
+	<a href='/home/'><div id = "mycampuser"></div></a>
+
+  </div>
+<div class='cb'></div>
+</div>
+
+
+
+<div class='cb'></div>
+
+<!--
+<table width="800" border="0" cellpadding="1">
+  <tr>
+    <td><a href="/home/"><img src="{{ MEDIA_URL }}css/images/landing-site.png" width="318" height="145" /></a></td>
+    <td rowspan="4"><a href="/home/"><img src="{{ MEDIA_URL }}css/images/mycampuser.jpg" width="408" height="600" /></a></td>
+  </tr>
+  <tr>
+    <td height="150"><a href="/bid-request/"><img src="{{ MEDIA_URL }}css/images/landing-bid.png" width="318" height="138" /></a></td>
+  </tr>
+  <tr>
+    <td height="154"><a href="/add_product/"><img src="{{ MEDIA_URL }}css/images/landing-sell.png" width="318" height="144" /></a></td>
+  </tr>
+  <tr>
+    <td><a href="/help/"><img src="{{ MEDIA_URL }}css/images/landing-help.png" width="318" height="138" /></a></td>
+  </tr>
+</table> -->
+</body>
+</html>

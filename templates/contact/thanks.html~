@@ -1,0 +1,12 @@
+{% extends "catalog.html" %}
+
+{% block content %}
+
+<head>
+    <title>Thanks</title>
+</head>
+<body onload=setTimeout("location.href='/home/'",5000)>
+	Your Comment has been Sent. We will get back to You.
+</body>
+
+{% endblock %}

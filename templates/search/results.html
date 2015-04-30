@@ -1,0 +1,35 @@
+{% extends "catalog.html" %}
+
+{% load search_tags %}
+{% block content %}
+
+<div id="product" class="product_form">
+<div class ="data">
+
+  {% if q == "" or q == "Search Products" %}
+<div id="form-error">
+	<p>There was an error processing your search request.</p>
+	<ul>
+	
+		<li> Please Enter a Search Term </li>
+
+	</ul>
+</div>
+	
+
+  {% else %}
+
+	<h3>Search Results for: {{ q }}</h3>
+    {% for p in results %}
+    	{% include 'tags/product_search.html' %}
+    {% empty %}
+    	No products were found matching {{ q }} 
+    {% endfor %}
+    <div class="cb">&nbsp;</div>
+    {% pagination_links request paginator %}
+
+  {% endif %}
+
+</div></div>
+
+{% endblock %}

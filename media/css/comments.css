@@ -1,0 +1,148 @@
+
+#add_review{
+	cursor:pointer;	
+}
+
+.prod_details_tab{
+	cursor:pointer;	
+}
+
+#reply_review{
+	cursor:pointer;
+}
+
+#add_reply{
+	cursor:pointer;	
+}
+
+#pdct_review{
+	cursor:pointer;
+}
+
+#product_thumbnail{
+	cursor:pointer;
+}
+
+.hidden{display:none;}
+.visible{display:block;}
+
+.new_review{
+	background-color:White;
+	color: #0033CC;
+}
+
+#full_review{
+	width:100%;height:auto;	
+}
+
+#rev{
+	width:99%;height:auto;
+	color:Black;
+	font-size:12px;
+	font-weight:small;
+	position:relative;
+	border: 0px solid Grey;
+	padding-left:10px;	
+}
+
+
+#loading{
+	display:none;
+	position:fixed;
+	top:0;
+	left:45%;
+	background-color:Pink;
+	width: 200px;
+	font-size:medium;
+	color:Black;
+	font-weight:bold;
+	padding:2px;
+	border:solid 1px Red; 
+	text-align: center;
+	z-index:100;	
+}
+
+#comment_header {
+	font-size: 1.2em;
+	font-weight: bold;	
+}
+
+
+#comment_list {
+	margin-top:20px;	
+
+}
+#comment_list .comment_item {
+  margin-top:20px;
+  border-bottom:2px solid ddd;
+  padding-bottom: 20px;
+  clear:both;
+
+}
+#comment_list .comment_head {
+  font-size: 12px;
+  font-weight: bold;
+  float:left;
+  clear:center;
+  width: 180px;
+  line-height: 1.4em
+}
+#comment_list .comment_rating {
+  margin-bottom: 20px;
+  }
+#comment_list .comment_body {
+	padding-bottom:10px;	
+	font-size: 15px;
+	line-height: 140%;
+}
+
+#info {	
+	font-size: 14px;
+	font-style: italic;
+	color: Grey;
+}
+
+
+#comment_list .comment_title {
+
+        color: DarkOrange;
+  	font-size: 13px;
+  	font-weight: bold;
+}
+
+
+#comment_list .comment_body a {
+	color: #EAA77C; 
+	font-size: 14px;
+}
+#comment_list .comment_date {font-size: .9em; color: #aaa;}
+
+#comment_list .comment_flag {display:block; margin-top: 10px; font-size: .9em}
+
+
+.content_body {
+	color: #000; 
+	font-size: 14px;
+	line-height: 150%;
+}
+
+#poll {
+	font-size: 14px;
+	line-height: 150%;
+	height: auto; 
+	width: 90%;
+}
+
+
+#poll a img {
+	cursor:pointer;
+	text-decoration: none;
+}
+
+#poll a img:hover {
+	text-decoration: none;
+}
+
+
+
+

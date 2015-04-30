@@ -1,0 +1,72 @@
+{% extends "catalog.html" %}
+
+{% load ajax_form_utils %}
+
+{% block content %}
+
+
+<style type="text/css">
+ label {
+  text-align: right;
+  width: 100%;
+  display: block;
+  float: left;
+  clear: left;
+  margin-right: 10px;
+  cursor: pointer;
+  font-weight:bold;
+}
+</style>
+
+<div id="register" class="register_form">
+
+<form method="post" action=".">{% csrf_token %}
+<h1> Contact Us</h1>
+    <div class="formbody">
+
+{% if form.errors %}
+<div id="form-error">
+	<p><i>There were errors in your form. Please correct and resubmit the form.</i></p>
+	<ul>
+	{% for field in form %}
+		{% if field.errors %}	
+			<li> {{ field.errors|striptags }} </li>
+		{% endif %}
+	{% endfor %}
+	</ul>
+</div>
+{% endif %}
+
+
+	<table style="width:100%">
+            
+    {% for field in form %}
+        <div class="fieldWrapper">
+            <tr style="height:40px">
+		<td><label>{{ field.label_tag }}</label></td>
+		<td>{{ field }}</td>
+	   </tr>
+        </div>
+    {% endfor %}
+
+
+	<tr><td></td><td></td></tr>
+	<tr><td></td><td><input type="submit" value="Send Message"/></td></tr>
+       
+	</table>
+
+<br/>
+</form>
+
+<br/><br/><div style="height: 1px ; background-color: black; text-align: center">
+  <span style="background-color: #E9F1F4; position: relative; top: -0.5em;">
+    &nbsp;&nbsp; Physical Address &nbsp;&nbsp;
+  </span>
+</div><br/><br/>
+
+</div>
+
+</div> <br/> <br/>
+
+
+{% endblock %}

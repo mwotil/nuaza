@@ -1,0 +1,22 @@
+<VirtualHost *:80>
+
+        # ServerName is required for a virtual host
+        ServerName www.mycampuser.com
+        ServerAlias mycampuser.com
+
+        Alias /static /home/mwotil/djangoCode/mysite/static
+
+        # DocumentRoot is required for a virtual host
+        DocumentRoot /home/mwotil/djangoCode/mysite
+
+        WSGIScriptAlias / /home/mwotil/djangoCode/mysite/apache/django.wsgi
+
+        ErrorLog /var/log/apache2/error.log
+        # Possible values include: debug, info, notice, warn, error, crit,
+        # alert, emerg.
+        LogLevel warn
+
+        CustomLog /var/log/apache2/access.log combined
+
+</VirtualHost>
+

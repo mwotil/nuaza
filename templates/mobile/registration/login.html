@@ -1,0 +1,111 @@
+{% extends "catalog.html" %}
+
+{% load ajax_form_utils %}
+
+{% load i18n %}
+
+{% block title %}{% trans 'Login :: Nuaza' %}{% endblock %}
+
+{% block content %}
+
+<style type="text/css">
+ label {
+  text-align: right;
+  width: 100%;
+  display: block;
+  float: left;
+  clear: left;
+  margin-right: 10px;
+  cursor: pointer
+}
+</style>
+
+
+<div id="login" class="login_form">
+
+
+<form method="post" action="{% url "django.contrib.auth.views.login" %}">{% csrf_token %}
+<h1>
+        Log in Using
+          (<a href="{% url "Nuaza.accounts.views.register" %}">Signup</a>)
+      </h1>
+    <div class="formbody">
+
+
+
+<div class="socialaccount_ballot">
+
+<ul class="socialaccount_providers">
+
+  {% for name in social_auth.backends.oauth2 %}
+     {% if name == "facebook" %}
+    <li> <a title="Facebook" class="socialaccount_provider facebook" href="{% url "socialauth_begin" name %}">{{ name|title}}</a> <li/>
+     {%endif%}
+
+  {% endfor %}
+
+
+  {% for name in social_auth.backends.openid %}
+
+     {% if name == "yahoo" %}
+     <li><a title="Yahoo" class="socialaccount_provider yahoo" href="{% url "socialauth_begin" name %}">{{ name|title }}</a> <li/>
+     {% endif %}
+
+     {% if name == "google" %}
+     <li><a title="Google" class="socialaccount_provider google" href="{% url "socialauth_begin" name %}">{{ name|title }}</a> <li/>
+     {% endif %}
+
+  {% endfor %}
+
+  {% for name in social_auth.backends.oauth %}
+
+     {% if name == "twitter" %}
+    <li> <a title="Twitter" class="socialaccount_provider twitter" href="{% url "socialauth_begin" name %}">{{ name|title}}</a> <li/>
+     {%endif%}
+
+     {% if name == "linkedin" %}
+    <li> <a title="LinkedIn" class="socialaccount_provider linkedin" href="{% url "socialauth_begin" name %}">{{ name|title}}</a> <li/>
+     {%endif%}
+
+  {% endfor %}
+
+
+</ul>
+
+</div>
+
+
+<br/><br/><br/><br/>
+
+<div style="height: 1px ; background-color: black; text-align: center">
+  <span style="background-color: #E9F1F4; position: relative; top: -0.6em;">
+    &nbsp;&nbsp; Have a Nuaza Account?. Login Here &nbsp;&nbsp;
+  </span>
+</div><br/>
+
+	<table style="width:100%">
+            {{ form.as_table }}
+	<tr><td></td><td><a href="{% url "django.contrib.auth.views.password_reset" %}">Lost your password?</a></td></tr>
+	<tr><td></td><td><input type="submit" value="Login"/></td></tr>
+       
+	</table>
+<input type="hidden" name="next" value="{{ next }}" />
+
+</form>
+
+</div>
+
+
+</div> <br/> <br/>
+
+<!--
+
+<script type="text/javascript">
+    $(function(){
+        $('form').validation({% render_ajax_fields form %});
+    });
+</script>
+
+-->
+{% endblock %}
+

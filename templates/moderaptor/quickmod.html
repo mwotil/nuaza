@@ -1,0 +1,9 @@
+{% load i18n %}
+	
+<form class="moderaptor_quickmod" action="/moderaptor/moderate/{{ report.id }}/" method="post" id="moderate_{{ report.id }}">
+	<ul>
+		<li><input type="radio" class="moderaptor_action" name="action" value="hide" />{% trans "Hide Object" %}</li>
+		<li><input type="radio" class="moderaptor_action" name="action" value="close" />{% trans "Close Report" %}</li>
+	</ul>
+	<input type="submit" name="submit" value="{% trans "Save" %}" />
+</form>

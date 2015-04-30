@@ -1,0 +1,18 @@
+{% extends "catalog.html" %}
+{% load pagination_tags %}
+{% block content %}
+
+<div id="product" class="product_form">
+<div class ="data">
+
+All Stores in Nuaza <hr/>
+
+		{% for store in stores %}
+			 <a href="{{store.get_absolute_url}}"><div class="center_title_bar">{{ store.store_name }}</div> </a><br/><br/>
+
+		{% endfor %} 
+</div></div>
+
+{% endblock %}
+
+

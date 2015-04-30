@@ -1,0 +1,35 @@
+{% extends "catalog.html" %}
+{% load pagination_tags %}
+{% block content %}
+
+<div id="product" class="product_form">
+<div class ="data">
+
+ <div class="center_title_bar">{{ c.category_name }}</div>
+
+{% autopaginate products 8 %}
+{% paginate %} <br/>
+
+{% for p in products %}
+
+      	<div class="prod_box">
+        	<div class="top_prod_box"></div>
+            <div class="center_prod_box">            
+                 <div class="product_title"> <a href="{{p.get_absolute_url}}"> {{ p.product_name }} </a> </div>
+                 <div class="product_img"><a href="{{p.get_absolute_url}}"> <img src="{{ p.product_image.thumbnail.url }}" alt="No Preview" title="" border="0" /></a></div>
+                 <div class="prod_price"><span class="price">{{ p.price }} UGX</span></div>                          
+            </div>
+            <div class="bottom_prod_box"></div>                                 
+        </div>
+
+{% empty %}
+
+No Products Yet in this Category
+
+{% endfor %}
+<br/><br/>
+</div> </div>
+
+{% endblock %}
+
+

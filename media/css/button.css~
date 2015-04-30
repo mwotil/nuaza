@@ -1,0 +1,132 @@
+/* CSS Document */		
+
+/* BUTTONS */
+
+.button{
+    display:block;
+    float:left;
+    margin:0 7px 0 0;
+    font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+    font-size:14px;
+    line-height:130%;
+    color:#565656;
+    padding:5px 10px 6px 7px; /* Links */
+}
+
+
+/* POSITIVE */
+
+.button input.positive{
+    font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+    font-size:14px;
+    line-height:130%;
+    font-weight:bold;
+    cursor:pointer;
+    color:#529214;
+    background: url(images/apply2.png) no-repeat center left;
+    padding-left: 20px;
+    padding-right: 5px;
+    width: auto;
+    height: auto;
+    border: 1px solid grey;
+    -moz-border-radius: 4px 4px / 4px 4px;
+    border-radius: 4px 4px / 4px 4px;
+}
+
+
+
+/* NEGATIVE */
+
+.button input.negative{
+    font-family:"Lucida Grande", Tahoma, Arial, Verdana, sans-serif;
+    font-size:14px;
+    line-height:130%;
+    font-weight:bold;
+    cursor:pointer;
+    color:#d12f19;
+    background: url(images/cross.png) no-repeat center left;
+    padding-left: 20px;
+    padding-right: 5px;
+    width: auto;
+    height: auto;
+    border: 1px solid grey;
+    -moz-border-radius: 4px 4px / 4px 4px;
+    border-radius: 4px 4px / 4px 4px;
+}
+
+/* ------------------
+ styling for the tables 
+   ------------------   */
+
+
+body
+{
+	line-height: 1.6em;
+}
+
+
+#rounded-corner
+{
+	font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif;
+	font-size: 12px;
+	margin: 1%;
+	width: 90%;
+	text-align: left;
+	border-collapse: collapse;
+}
+#rounded-corner thead th.rounded-company
+{
+	background: #DCDCDC;
+}
+#rounded-corner thead th.rounded-q4
+{
+	background: #DCDCDC;
+}
+#rounded-corner th
+{
+	padding: 8px;
+	font-weight: normal;
+	font-size: 13px;
+	color: #039;
+	background: #DCDCDC;
+}
+#rounded-corner td
+{
+	padding: 8px;
+	background: #E5E5E5;
+	border-top: 1px solid #fff;
+	color: #669;
+}
+#rounded-corner tfoot td.rounded-foot-left
+{
+	background: #E5E5E5;
+}
+#rounded-corner tfoot td.rounded-foot-right
+{
+	background: #E5E5E5;
+}
+#rounded-corner tbody tr:hover td
+{
+	background: #fff;
+}
+
+#rounded-corner td.head
+{
+	background: url(images/tabletree-arrow.gif) no-repeat 2px 50% #E5E5E5;
+	padding-left: 15px;
+	border-top: 1px solid #E5E5E5;
+	color: #669;
+
+}
+
+#rounded-corner td.end
+{
+	background: url(images/tabletree-dots2.gif) 18px 54% no-repeat #E5E5E5;
+	padding-left: 26px;
+	border-top: 1px solid #E5E5E5;
+	color: #669;
+
+}
+
+
+

@@ -1,0 +1,14 @@
+
+<div class="arrowlistmenu">
+
+  <div class="title_box">Top Product Stores</div>
+  <ul>
+
+	{% for s in store %}
+		<li> <a href="{{ s.get_absolute_url }}">{{ s.store_name }}</a> </li>
+	{% endfor %}
+	<li> <a href="{% url "Nuaza.pdcts.views.show_all_shops" %}">Browse all Stores</a> </li>
+  </ul>
+
+</div>
+

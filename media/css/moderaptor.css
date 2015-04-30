@@ -1,0 +1,51 @@
+.moderaptor {
+	position: absolute;
+	width: auto;
+	height: auto;
+	z-index: 9999;
+	font-size: 10px;
+	cursor:pointer;
+	}
+.moderaptor_button {
+	width: 100%;
+	float: left;	
+	}
+.moderaptor_button img {
+	float: left;
+	}	
+.moderaptor_toggle {
+	float: right;
+	display: block;
+	}
+.moderaptor ul,
+.moderaptor li {
+	text-indent: 0;
+	margin:0;
+	}
+.moderaptor form {
+	clear: both;
+	float: left;
+	display: none;
+	position: relative;
+	top: 0;
+	left: 0;
+	width: 146px;
+	height: auto;
+	border: 1px solid #999999;
+	margin:0;
+	padding: 6px;
+	background: #ffffff;
+	-moz-border-radius: 4px;
+	-webkit-border-radiu: 4px;
+	z-index: 9999;
+	}
+
+.moderaptor li input {
+	margin-right: 4px;
+	}	
+
+.moderaptor_submit {
+	float: right;
+
+	}
+	

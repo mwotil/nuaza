@@ -1,0 +1,145 @@
+{% extends "catalog.html" %}
+{% load pagination_tags %}
+{% load my_date_filter %}
+{% load mod_report %}
+{% load voting_tags %}
+
+{% block content %}
+
+<script type = "text/javascript">
+
+function vote(id, direction) {
+    $.post('/reviews/'+id+'/'+direction+'vote/', {HTTP_X_REQUESTED:'XMLHttpRequest'},
+           function(data) {
+               if (data.success == true) {
+                   $('#score').text(data.score.score);
+                   $('#num_votes').text(data.score.num_votes);
+               } else {
+                   alert('ERROR: ' + data.error_message);
+               }
+           }, 'json'
+          )
+}
+
+</script>
+
+<div id="product" class="product_form">
+<div class ="data">
+
+<a href = "{{ r.product.get_absolute_url }}"><strong><u> &lt;&lt; Back to all Reviews</u></strong></a> <br/> <br/>
+
+{% score_for_object r as score %}
+<h5> <span id="score">{{ score.score }}  </span> out of <span id="num_votes">{{ score.num_votes }} </span> people found this review helpful </h5> <br/>
+ 
+
+<strong>{{r.user}} Full Review on: </strong> <span style="font-size:16px;" > {{r.product}} </span> <br/>
+<div style="font-size:13px; color:grey;">Written {{ r.date|ago}} </div><br/>
+
+{% if review.mod_reported.hide_object %}
+    	<div id ="info">This review has been hidden by the moderators for {{ review.mod_reported.type }}.</div>
+{% else %}
+    {% if review.mod_reported and not review.mod_reported.resolved %}
+        <div id ="info">This review has been reported for {{review.mod_reported.type }} </div>
+    {% endif %}
+<div class="content_body">	{{r.content}} </div>
+{% endif %}
+
+
+<br/><br/>
+
+<strong> {% report request 'pdcts' 'ProductReview' r.id %} </strong>
+
+<br/> <br/>
+
+<div id="poll">
+
+    Was this review helpful to you? &nbsp; &nbsp; 
+	<a href="" onclick="vote('{{ r.id }}', 'up');">
+		<img src="{{MEDIA_URL}}images/yes.gif" width="35" alt="Yes" style="vertical-align:middle;" height="18" border="0" />
+	</a> &nbsp; &nbsp;
+	<a href="" onclick="vote('{{ r.id }}', 'down');">
+		<img src="{{MEDIA_URL}}images/no.gif" width="35" alt="Yes" style="vertical-align:middle;" height="18" border="0" />
+	</a> &nbsp; &nbsp;
+
+</div>  
+
+<br/>
+
+
+<div id="replies">
+
+<a id = "reply_review"><strong><u>Comments on this Review</u></strong></a> <br/><br/>
+ {% autopaginate reply_reviews 6 %}
+{% for reply in reply_reviews %}
+	{% include 'pdcts/reply_review.html' %}
+{% empty %}
+	<br/>No comments
+{% endfor %}
+ {% paginate %} <br/><br/>
+
+{% if request.user.is_authenticated and r.user == request.user%}
+
+<a href="{% url "review_info" review_slug=r.slug %} ">Edit Review</a>
+
+{% else %}
+
+{% if request.user.is_authenticated %}
+<a id="add_reply"><strong>Write a Comment on this Review!</strong></a><br/>
+
+<div id="reply_form">
+  
+<fieldset class="my_review">
+<legend>Reply and Rate this User's Review</legend>
+
+<div id="reply_errors">{{ reply_form.non_field_errors }}</div> 
+<table>
+	<tr>
+    <div class="fieldWrapper">
+        {{ reply_form.reply.errors }}
+       <td> <label for="id_reply">Comment:</label></td>
+        <td>{{ reply_form.reply }} </td>
+    </div> <br/>
+</tr>
+
+</table>
+
+<table> 
+<tr></tr>
+<tr></tr>
+<tr></tr>
+<tr>Reviewer Attribute Ratings (User Reputation)</tr>
+<tr><td><label for="id_rate_objective">Objectivity:</label></td><td>{{ reply_form.rate_objective }}</td></tr>
+<tr><td><label for="id_rate_complete">Completeness:</label></td><td>{{ reply_form.rate_complete }}</td></tr>
+
+
+</table>
+
+<br/>
+
+<tr><td colspan="2">
+<input type="hidden" id="id_review" value="{{ r.id }}" />
+<input type="hidden" id="id_user" value="{{ r.user_id }}" />
+
+<input type="submit" id="submit_reply" value="Reply" class = 'positive' />
+<input type="submit" id="cancel_reply" value="Cancel" class = 'negative' />
+
+</td> <td></td></tr>
+</fieldset>
+
+</div>
+
+</div>
+
+{% else %} <a href="{% url "login" %}?next={{ request.path }}">Log in to Reply to this Review!</a>
+
+{% endif %}
+
+{% endif %}<br/><br/>
+
+<a href = "{{ r.product.get_absolute_url }}"><strong><u> &lt;&lt; Back to all Reviews</u></strong></a> <br/> <br/>
+</div>
+
+</div></div>
+
+{% endblock %}
+

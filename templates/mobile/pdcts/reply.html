@@ -1,0 +1,63 @@
+     
+<a id = "reply_review"> <h3>Replies</h3></a>
+{% if request.user.is_authenticated %}
+<a id="add_reply">Write a Reply</a>
+<div id="reply_form">
+<div id="reply_errors"></div>
+   {{ reply_form.non_field_errors }} 
+
+<fieldset class="my_account">
+<legend>Reply and Rate this User's Review</legend>
+<table>
+	<tr>
+    <div class="fieldWrapper">
+        {{ reply_form.reply.errors }}
+       <td> <label for="id_reply">Comment:</label></td>
+        <td>{{ reply_form.reply }} </td>
+    </div> <br/>
+</tr>
+
+	<tr>
+    <div class="fieldWrapper">
+        {{ reply_form.captcha.errors }}
+       <td> <label for="id_captcha">Captcha:</label></td>
+        <td>{{ reply_form.captcha }} </td>
+    </div> <br/>
+</tr>
+
+</table>
+
+<div id = "Attribute_Rate">
+<table> 
+<tr><td> Attributes</td><td><label for="id_rate_trust">Trust</label></td><td><label for="id_rate_objective">Objective</label></td><td><label for="id_rate_complete">Completeness</label></td><td><label for="id_rate_write">Write</label></td></tr> 
+
+
+
+<tr><td></td><td></td><td></td><td></td></tr>
+<tr><td></td><td></td><td></td><td></td></tr> 
+
+<tr><td> Rate</td><td>{{ reply_form.rate_trust }}</td><td>{{ reply_form.rate_objective }}</td><td>{{ reply_form.rate_complete }}</td><td>{{ reply_form.rate_write }}</td></tr> 
+
+</table>
+</div>
+
+
+<br/>
+<br/>
+<br/>
+
+<tr><td colspan="2">
+<input type="hidden" id="id_review" value="{{ review.id }}" />
+<input type="hidden" id="id_user" value="{{ review.user_id }}" />
+<input type="hidden" id="id_slug" value="{{ p.slug }}" />
+<input type="submit" id="submit_reply" value="Reply" class = 'button'/>
+<input type="submit" id="cancel_reply" value="Cancel" class = 'button' />
+</td> <td></td></tr>
+</fieldset>
+</div>
+
+{% else %}
+<a href="{% url "login" %}?next={{ request.path }}">
+Log in to Reply to this Review.
+</a>
+{% endif %}

@@ -1,0 +1,73 @@
+{% extends "catalog.html" %}
+
+
+{% block content %}
+
+<div id="register" class="register_form">
+<div class="formbody">
+
+<div class ="associate">
+
+<br/>
+
+{% if social_auth.associated %}
+
+Disconnect accounts <br/>
+
+  {% for type, accounts in social_auth.associated.items %}
+    {% for account in accounts %}
+
+        <span class="disconnect"><a href={% url "socialauth_disconnect_individual" account.provider account.id %}>{{ account.provider|title }}</a></span>
+
+    {% endfor %}
+  {% endfor %}
+
+{% endif %}
+<br/><br/>
+Associate with new credentials: <br/><br/>
+
+<div class="socialaccount_ballot">
+
+<ul class="socialaccount_providers">
+
+  {% for name in social_auth.backends.oauth %}
+     {% if name == "twitter" %}
+    <li> <a title="Twitter" class="socialaccount_provider twitter" href="{% url "socialauth_associate_begin" name %}">{{ name|title}}</a> <li/>
+     {%endif%}
+     {% if name == "linkedin" %}
+    <li> <a title="LinkedIn" class="socialaccount_provider linkedin" href="{% url "socialauth_associate_begin" name %}">{{ name|title}}</a> <li/>
+     {%endif%}
+
+  {% endfor %}
+ 
+  {% for name in social_auth.backends.oauth2 %}
+     {% if name == "facebook" %}
+    <li> <a title="Facebook" class="socialaccount_provider facebook" href="{% url "socialauth_associate_begin" name %}">{{ name|title}}</a> <li/>
+     {%endif%}
+
+  {% endfor %}
+
+  {% for name in social_auth.backends.openid %}
+     {% if name == "google" %}
+     <li><a title="Google" class="socialaccount_provider google" href="{% url "socialauth_associate_begin" name %}">{{ name|title }}</a> <li/>
+     {% endif %}
+     {% if name == "yahoo" %}
+     <li><a title="Yahoo" class="socialaccount_provider yahoo" href="{% url "socialauth_associate_begin" name %}">{{ name|title }}</a> <li/>
+     {% endif %}
+  {% endfor %}
+</ul>
+
+</div> 
+
+  <table>
+    <tr class="odd"><th>Id:</th> <td>{{ user.id }}</td></tr>
+    <tr class="even"><th>Username:</th> <td>{{ user.username }}</td></tr>
+    <tr class="odd"><th>Email:</th> <td>{{ user.email|default:"Not provided" }}</td></tr>
+    <tr class="even"><th>First name:</th> <td>{{ user.first_name|default:"Not provided" }}</td></tr>
+    <tr class="odd"><th>Last name:</th> <td>{{ user.last_name|default:"Not provided" }}</td></tr>
+    <tr class="even"><th>Last login backend:</th> <td>{{ last_login }}</td></tr>
+  </table>
+
+</div>
+</div></div>
+{% endblock %}

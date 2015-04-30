@@ -1,0 +1,9 @@
+{% load i18n %}
+{% if poll %}
+<p><strong>{% trans "Thanks for your response" %}</strong></p>
+{% for a in poll.get_answers_stat %}
+{{a.1}} ({{a.2}}) <br /><div style="background-color:#7db6f0; height:10px; width:{{a.3}}px;">&nbsp;</div>
+{% endfor %}
+{% else %}
+<p>{% trans "This poll is unpublished and can not be answered." %}</p>
+{% endif %}                   

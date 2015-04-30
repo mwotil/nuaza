@@ -1,0 +1,8 @@
+{% with flatpage_list as pages %}
+{% for page in pages %}
+<a href="{{ page.url }}">{{ page.title }}</a> &nbsp; &nbsp; &nbsp; &nbsp;
+{% endfor %} 
+
+Copyright &copy; 2013 <i>Nuaza</i> 
+{% endwith %}
+

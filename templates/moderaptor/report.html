@@ -1,0 +1,28 @@
+{% load i18n %}
+
+{% if can_report %}
+	<div class="moderaptor">
+	{% if not report %}
+		<div class="moderaptor_button"><a class="moderaptor_toggle" title="{% trans 'Report Review' %}"><u> {% trans 'Report Review' %} </u> </a> </div>
+
+
+
+		<form class="moderaptor_report" action="/moderaptor/report/{{ label }}/{{ name }}/{{ id }}/" method="post" id="report_{{ name }}_{{ id }}">
+		<ul>
+		{% for type in types %}
+			<li><input type="radio" class="moderaptor_type" name="type" value="{{ type.id }}" />{{ type.title }}</li>
+		{% endfor %}
+		</ul>
+		<input type="submit" name="submit" value="{% trans 'Report' %}" />
+		</form>
+	{% endif %}
+	
+
+
+
+	{% if report and is_moderator and not report.resolved %}
+		<div class="moderaptor_button"><a class="moderaptor_toggle"  title="{% trans 'Moderate Review' %}"> <u> {% trans 'Moderate Review' %} </u> </a></div>
+		{% include "moderaptor/quickmod.html" %}
+	{% endif %}
+	</div>
+{% endif %}

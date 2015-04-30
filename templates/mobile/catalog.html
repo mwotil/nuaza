@@ -1,0 +1,40 @@
+{% extends "mobile/base.html" %}
+{% load search_tags %}
+{% load catalog_tags %}
+
+{% block content %}
+
+  <!-- every "page" looks something like this -->
+
+  <div data-role="page" id="page0" data-theme="d">
+
+	<div data-role="header">
+	  <h1>Home</h1>
+	</div><!-- /header -->
+
+	<div data-role="content">
+
+This is New Block Content
+
+	</div><!-- /content -->
+
+	<div data-role="footer" data-theme="d">
+               {% footer_links %}
+	</div><!-- /footer -->
+
+
+<footer data-role="footer" class="ui-body-b">  
+    <div data-role="navbar">  
+        <ul>  
+            <li><a href="#index" data-direction="reverse">App Homescreen!</a></li>  
+            <li><a href="http://www.google.com/" data-rel="external">Google Me</a></li>  
+            <li><a href="http://www.hongkiat.com/" data-rel="external">Hongkiat Blog</a></li>  
+        </ul>  
+    </div>  
+</footer> 
+
+
+
+  </div><!-- /page -->
+
+{% endblock %}

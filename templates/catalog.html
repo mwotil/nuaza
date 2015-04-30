@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load search_tags %}
+{% load catalog_tags %}
+
+{% block site_wrapper %}
+<!--[if IE 6]>
+<link rel="stylesheet" type="text/css" href="iecss.css" />
+<![endif]-->
+
+<div id="main_container">
+
+	{% include 'tags/account.html' %}
+    
+   <div id="main_content"> 
+
+	   <div class="nav-bar">
+		{% search_box request %} 
+
+	  </div> <br/>
+	     
+	   <div class="left_content">
+		{% include "tags/store_list.html" %} <br/> <br/>
+		{% include "tags/category_list.html" %} <br/> <br/> 
+	   </div><!-- end of left content -->
+	   
+	   
+	   <div class="center_content">
+		{% block content %}{% endblock %}
+	   </div><!-- end of center content -->
+
+
+  	  <div class="right_content">
+	  	<div class="cart_box"> {% cart_box request %} </div> <br/>
+		{% include "tags/latest_list.html" %}<br/> <br/>		
+		{% include "tags/most_reviewed.html" %}<br/><br/> 
+  	  </div> <!-- end of right content -->   
+
+            
+   </div><!-- end of main content -->
+   
+   <!-- <div class = "clear_foot"></div> -->
+   
+   <div class="footer">
+   	{% footer_links %}
+        <!-- <div class="left_footer"> Copyright 2011</div> -->        
+        <!-- <div class="center_footer">{% footer_links %}</div> -->        
+        <!-- <div class="right_footer"></div>   -->   
+   </div>                 
+
+
+</div>
+<!-- end of main_container -->
+
+{% endblock %}

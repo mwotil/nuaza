@@ -1,0 +1,30 @@
+{% extends "catalog.html" %}
+
+
+{% block content %}
+
+<div id="register" class="register_form">
+<div class="formbody">
+
+<h1>Third Party Account Login Error</h1>
+
+<div id="form-error">
+	<p>Sorry but some error made you impossible to login. You can try using another account</p>
+	<ul>
+  {% if messages %}
+    {% for msg in messages %}
+       <li> <p class="error">{{ msg.message }} ({{ msg.extra_tags }})</p> </li>
+    {% endfor %}
+  {% endif %}
+
+  {% if error_msg %}
+    <p>Details:</p>
+    <li><p class="error">{{ error_msg }}</p><li>
+  {% endif %}
+	</ul>
+<p>Please try again <a href="{% url "django.contrib.auth.views.login" %}">Login</a></p>
+
+</div>
+</div></div>
+
+{% endblock %}

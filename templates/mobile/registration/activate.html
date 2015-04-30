@@ -1,0 +1,21 @@
+{% extends "catalog.html" %}
+
+{% block content %}
+
+<div id="register" class="register_form">
+    	<div class="formbody">
+<h1>Activation Error</h1>
+<div id="form-error">
+	<p><i>This may be caused by one or both of the following:</i></p>
+	<ul>
+	
+			<li> Activation link is incorrect <br/> </li>
+			<li> Activation key has expired. (Activation keys are only valid for 2 days after registration) <br/> </li>
+	</ul>
+</div>
+
+<p><i>Please <a href="{% url "Nuaza.accounts.views.register" %}">Signup</a>  for another account or send an email with your username to support@nuaza.com</i></p>
+
+</div></div>
+{% endblock %}
+

@@ -1,0 +1,164 @@
+from django.contrib.auth.forms import UserCreationForm
+from django.template import RequestContext
+from django.shortcuts import render_to_response, get_object_or_404
+from django.core import urlresolvers
+from django.http import HttpResponseRedirect
+from django.contrib.auth.decorators import login_required
+from Nuaza.accounts.models import UserProfile
+from Nuaza.accounts.forms import UserProfileForm, RegistrationForm, AuthenticationForm
+from Nuaza.accounts import profile
+from Nuaza.pdcts.models import Product, ProductReview, Transaction, Category, SuperCategory, Buys
+from django.conf import settings
+from django.core.mail import send_mail
+import datetime, random, sha
+from django.db import IntegrityError
+from django.contrib.messages.api import get_messages
+from social_auth import __version__ as version
+from django.contrib.auth.models import User
+from Nuaza.checkout.models import Order
+
+from .tables import ThemedPdctBidsTable, ThemedPdctBuysTable, ThemedMyBidsTable, ThemedMyBuysTable, ThemedMyOrdersTable
+
+
+from django_tables2 import RequestConfig
+
+def register(request, template_name="registration/register.html", template_1="registration/registration_complete.html"):
+	if request.method == 'POST':
+		postdata = request.POST.copy()
+		form = RegistrationForm(postdata)
+		if form.is_valid():
+			user = form.save(commit=False)
+			user.email = postdata.get('email','')
+			user.is_active = False			
+			user.save()
+
+			un = postdata.get('username','')
+			pw = postdata.get('password1','')
+			from django.contrib.auth import login, authenticate
+			new_user = authenticate(username=un, password=pw)
+
+            		salt = sha.new(str(random.random())).hexdigest()[:5]
+            		activation_key = sha.new(salt+new_user.username).hexdigest()
+            		key_expires = datetime.datetime.today() + datetime.timedelta(2)
+
+
+            		new_profile = UserProfile(user=new_user, activation_key=activation_key,key_expires=key_expires)
+            		new_profile.save()
+		    	email_subject = 'Your new Nuaza Account confirmation'
+		    	email_body = "Hello %s, Thanks for registering with Nuaza. Please, follow the link below to activate your account. \n \nhttp://nuaza.com/accounts/confirm/%s  \n\nRegards, \n\nNuaza Team" % (new_user.username,  new_profile.activation_key) 
+		    	send_mail(email_subject, email_body, 'support@nuaza.com', [new_user.email])
+
+			if new_user and new_user.is_active:
+				login(request, new_user)
+				url = urlresolvers.reverse('my_account')
+				return HttpResponseRedirect(url)
+			else:
+				page_title = 'Inactive Account'
+				return render_to_response(template_1, locals(), context_instance=RequestContext(request))
+
+
+	else:
+		form = RegistrationForm()
+	page_title = 'User Registration'
+	return render_to_response(template_name, locals(), context_instance=RequestContext(request))
+
+
+def confirm(request, activation_key, template_1="registration/confirmed.html", template_2="registration/activate.html", template_3="registration/activation_complete.html"):
+
+    if request.user.is_authenticated():
+	page_title = 'Confirmed'
+	return render_to_response(template_1, locals(), context_instance=RequestContext(request))
+
+    user_profile = get_object_or_404(UserProfile, activation_key=activation_key)
+    if user_profile.key_expires < datetime.datetime.today():
+	page_title = 'Expired Account'
+	return render_to_response(template_2, locals(), context_instance=RequestContext(request))
+
+    user_account = user_profile.user
+    user_account.is_active = True
+    user_account.save()
+    page_title = 'Success'
+    return render_to_response(template_3, locals(), context_instance=RequestContext(request))
+
+def error(request, template_name="registration/error.html"):
+	page_title = 'Error'
+    	messages = get_messages(request)
+	
+	return render_to_response(template_name, {'version': version,'messages': messages}, context_instance=RequestContext(request))
+
+
+@login_required
+def done(request, template_name="registration/done.html"):
+    """Login complete view, displays user data"""
+    ctx = {'version': version,'last_login': request.session.get('social_auth_last_login_backend')}
+    return render_to_response(template_name, ctx, context_instance=RequestContext(request))
+
+@login_required
+def my_account(request, template_name="registration/my_account.html"):
+        request.breadcrumbs(("My Account"),request.path_info)
+	page_title = 'My Account'
+	name = request.user.username
+	my_pdcts = Product.objects.filter(user=request.user)
+	my_revs = ProductReview.objects.filter(user=request.user)
+	pdct_bids = Transaction.objects.filter(product__user=request.user)
+#	bid_replies = Transaction_Reply.objects.filter(transaction__user=request.user)
+	my_bids = Transaction.objects.filter(user=request.user)
+	
+	return render_to_response(template_name, locals(), context_instance=RequestContext(request))
+
+@login_required
+def my_transactions(request, template_name="registration/my_transactions.html"):
+        request.breadcrumbs(("My Transactions"),request.path_info)
+	page_title = 'My Transactions'
+
+	my_pdcts = Product.objects.filter(user=request.user)
+	my_revs = ProductReview.objects.filter(user=request.user)
+	pdct_bids = Transaction.objects.filter(product__user=request.user)
+	my_bids = Transaction.objects.filter(user=request.user)
+	pdct_buys = Buys.objects.filter(product__user=request.user)
+	my_buys = Buys.objects.filter(user=request.user)
+	my_orders = Order.objects.filter(user=request.user)
+	s = SuperCategory.objects.order_by('supercategory_name')
+	c = Category.objects.all()
+
+    	themedpdctbids = ThemedPdctBidsTable(pdct_bids, prefix="1-")
+    	themedmybids = ThemedMyBidsTable(my_bids, prefix="2-")
+    	themedpdctbuys = ThemedPdctBuysTable(pdct_buys, prefix="3-")
+    	themedmybuys = ThemedMyBuysTable(my_buys, prefix="4-")
+    	themedmyorders = ThemedMyOrdersTable(my_orders, prefix="5-")
+
+   	RequestConfig(request, paginate={"per_page": 5}).configure(themedpdctbids)
+   	RequestConfig(request, paginate={"per_page": 5}).configure(themedmybids)
+   	RequestConfig(request, paginate={"per_page": 5}).configure(themedpdctbuys)
+   	RequestConfig(request, paginate={"per_page": 5}).configure(themedmybuys)
+   	RequestConfig(request, paginate={"per_page": 5}).configure(themedmyorders)
+	
+	return render_to_response(template_name, locals(), context_instance=RequestContext(request))
+
+@login_required
+def contact_seller(request,contact_user, template_name="registration/contact_seller.html"):
+        request.breadcrumbs(("Contact Seller"),request.path_info)
+	page_title = 'Contact Seller'
+
+	contact = User.objects.get(username=contact_user)
+	profile = UserProfile.objects.get(user=contact)
+	#pdct_bids = Transaction.objects.filter(product__user=request.user)
+	
+	return render_to_response(template_name, locals(), context_instance=RequestContext(request))
+
+
+@login_required
+def profile_info(request, template_name="registration/userprofile.html"):
+    #request.breadcrumbs( ( ("My Account", '/accounts/my_account/'), ("Edit Profile", request.path_info) ) )
+    if request.method == 'POST':
+        form = UserProfileForm(request.POST, request.FILES)
+        if form.is_valid():
+            profile.set(request)
+            url = urlresolvers.reverse('my_account')
+            return HttpResponseRedirect(url)
+    else:
+        user_profile = profile.retrieve(request)
+        form = UserProfileForm(instance=user_profile)
+    page_title = 'Edit Your Profile Information'
+    return render_to_response(template_name, locals(), context_instance=RequestContext(request))
+

@@ -1,0 +1,55 @@
+{% extends "catalog.html" %}
+{% load my_date_filter %}
+
+{% block content %}
+
+<div id="product" class="product_form">
+<div class ="data">
+
+<style type="text/css">
+ label {
+  text-align: right;
+  width: 50%;
+  display: block;
+  float: left;
+  clear: left;
+  font-weight: bold;
+  margin-right: 10px;
+  cursor: pointer
+}
+</style>
+
+
+<div id="login" class="login_form">
+
+<h1> Seller Contacts  </h1>
+
+<div class="formbody">
+
+<label>User Name:</label>{{contact.username}} <br/>
+<label>First Name:</label>{{contact.first_name}} <br/>
+<label>Last Name:</label>{{contact.last_name}} <br/>
+<label>Email Address:</label>{{contact.email}} <br/>
+
+<label>Address Line 1:</label>{{profile.shipping_address_1}} <br/>
+<label>Address Line 2:</label>{{profile.shipping_address_2}} <br/>
+<label>District:</label>{{profile.shipping_address_1}} <br/>
+<label>Location:</label>{{profile.shipping_address_2}} <br/>
+<label>Telephone Number:</label>{{profile.phone}} <br/>
+
+<a href = "{% url "my_transactions" %}" >Back</a>
+
+</div>
+
+</div>
+
+
+
+<br/><br/>
+
+
+</div>
+</div>
+
+{% endblock %}
+

@@ -1,0 +1,19 @@
+{% extends "catalog.html" %}
+{% block content %}
+
+<div id="register" class="register_form">
+<div class="formbody">
+<html><body onload=setTimeout("location.href='/add_product/'",9000)> <h2><center>Your Product has been submitted successfully and will be available after a review by a My Campuser Administrator</center></h2> 
+
+<b>Disclaimer:</br> We take security and usability for our guests in high esteem. In order to avoid illegal uploads such as pornography, drugs, among others, we check and verify each upload that is made on MyCampuser.com. Thanks for trusting us with your business.
+
+You are now being redirected to submit another product. <br/>
+<!--
+Meanwhile, for effective consumer to consumer interaction, please <a href="{% url "profile_info" %} "> Edit your profile </a> Now if you haven't. -->
+ 
+
+</body> </html>
+
+</div></div>
+{% endblock %}
+

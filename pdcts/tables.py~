@@ -1,0 +1,12 @@
+import django_tables2 as tables
+from mysite.pdcts.models import *
+
+class BuyerBidsTable(tables.Table):
+    class Meta:
+        model = Transaction
+
+class ThemedContactsManagerTable(BuyerBidsTable):
+    class Meta:
+        attrs = {'class': 'paleblue'}
+
+

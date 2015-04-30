@@ -1,0 +1,293 @@
+{% extends "catalog.html" %}
+{% load pagination_tags %}
+
+{% block content %}
+
+<style type="text/css">
+ .label_req {
+  text-align: right;
+  width: 55%;
+  float: right;
+  margin-right: 20px;
+  cursor: pointer;
+  display: block;
+
+}
+</style>
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+	
+	$(".toggle_container").show();
+
+	$("h2.trigger").click(function(){
+		$(this).toggleClass("active").next().slideToggle("slow");
+	});
+
+});
+</script>
+
+<div id="product" class="product_form">
+<div class ="data">
+
+<div class = "product_site"> <!--Start of product section -->
+
+<div class="product_image">
+	<img src="{{ MEDIA_URL }}{{ p.product_image }}" alt="{{ p.product_name}}" />
+</div>
+
+<div class="tab_content"> <!--Start of tabbed content -->
+<ol id="toc">
+    <li><a href="#product_details"><span>Product Details</span></a></li>
+    <li><a href="#supplier_details"><span>Supplier Details</span></a></li>
+    <li><a href="#transact_details"><span>Buy or Bid</span></a></li>
+</ol>
+
+<div class="tabcontent" id="product_details"> <!--start of js product details -->
+<div id = "product_detail">
+
+<h4> {{ p.product_name }} </h4>
+<ul>	
+  <div id = "product_rate"><span><li>
+     <input name="star_product" type="radio" class=" star star_product " disabled="disabled"/>
+     <input name="star_product" type="radio" class=" star star_product " disabled="disabled"/>
+     <input name="star_product" type="radio" class=" star star_product " disabled="disabled"/>
+     <input name="star_product" type="radio" class=" star star_product " disabled="disabled"/>
+     <input name="star_product" type="radio" class=" star star_product " disabled="disabled"/>
+
+          <script type="text/javascript">
+            var rp = {{p.rating_score|default:"0"}};
+            if (rp != 0) {
+                var rpf = rp/{{p.rating_votes}};
+                rpf = Math.floor(rpf);
+            	$("input:radio.star_product")[rpf-1].checked = 'checked';
+            }
+          </script>
+              
+	(Reviews: {{p.rating_votes}})<br /></li></span>
+
+</div>
+
+	<li><label><strong>Condition: </strong> </label>{{ p.product_condition}} </li>
+
+	<li><label><strong>Categor{{ product_category.count|pluralize:"y,ies" }}: </strong> </label>
+		{% for c in product_category %}
+			<a href="{{ c.get_absolute_url }}">{{ c.category_name }}</a>
+		{% if not forloop.last %}, {% endif %}
+		{% endfor %} </li>
+
+	<li><label><strong>Store: </strong> </label>{{ p.Store }} </li>
+	<li><label><strong>Price(UGX): </strong> </label>{{ p.price}} </li>
+<br/>
+
+
+
+</ul>
+<br/><br/>
+</div> </div><!--End of js product details -->
+
+<div class="tabcontent" id="supplier_details"> <!--Start of js supplier details -->
+<div class = "seller">
+
+<h4>Supplier Details</h4>
+
+{{p.user|capfirst}} <br/>
+
+{% if request.user.is_authenticated and p.user == request.user%}
+
+{% else %}
+<a href="{% url "rate_user" product_slug=p.slug %}?next={{ request.path }} ">Rate this Seller </a>  <br/>{% endif %}  {{user_rep|floatformat:"2"}}% ({{votes|floatformat:"0"}} votes) <br/><br/><hr/> <br/>
+
+<h4>Other Product Suppliers</h4>
+
+{% for r in store_reviews %}
+	 {{r.store}}
+<!--
+     <input name="star__{{r.id}}" type="radio" class=" star star__{{r.id}}" disabled="disabled"/>
+     <input name="star__{{r.id}}" type="radio" class=" star star__{{r.id}}" disabled="disabled"/>
+     <input name="star__{{r.id}}" type="radio" class=" star star__{{r.id}}" disabled="disabled"/>
+     <input name="star__{{r.id}}" type="radio" class=" star star__{{r.id}}" disabled="disabled"/>
+     <input name="star__{{r.id}}" type="radio" class=" star star__{{r.id}}" disabled="disabled"/>
+
+          <script type="text/javascript">
+            var rr = {{r.rating_score|default:"0"}};
+            if (rr != 0) {
+                var rrf = rr/{{r.rating_votes}};
+                rrf = Math.floor(rrf);
+            	$("input:radio.star__{{r.id}}")[rrf-1].checked = 'checked';
+            }
+          </script> -->
+
+{% if not forloop.last %}{% endif %}
+
+{% empty %}
+No other sellers have been added <br/><br/>
+
+{% endfor %}
+
+</div>
+</div><!--End of js supplier details -->
+
+<div class="tabcontent" id="transact_details"> <!--start of js transact details -->
+<div id = "transact_detail">
+{% if request.user.is_authenticated  %}
+{% if p.product_type = "Sale"  %}
+{% if p.product_pricing = "Negotiable"  %}
+
+ 	<span><a href="{% url "transact" product_slug=p.slug %}"> Place Bid for this Product </a></span> <br/>
+	<span><a href="{% url "buy_now" product_slug=p.slug %}"> Buy Now </a></span><br/>
+
+<form method="post" action="." class="cart">
+	{{ form.as_p }}
+	<br />
+	<input type="submit" value="Add To Cart" name="submit" alt="Add To Cart" />
+</form>
+<div class="cb"></div>
+
+
+{% else %}
+ 	<span><a href="{% url "buy_now" product_slug=p.slug %}"> Buy Now </a></span><br/>
+<form method="post" action="." class="cart">
+	{{ form.as_p }}
+	<br />
+	<input type="submit" value="Add To Cart" name="submit" alt="Add To Cart" />
+</form>
+
+{% endif %}
+{% else %}
+ 	<span><a href="#add_review"> Review Product </a></span><br/>
+
+{% endif %}
+{% else %}
+	</span><a href="{% url "login" %}?next={{ request.path }}"> Log in to Buy/Bid or Write a Review!</a> </span><br/>
+{% endif %}
+</div>
+</div><!--End of js transact details -->
+
+<script src="{{ MEDIA_URL }}js/activatables.js" type="text/javascript"></script>
+<script type="text/javascript">
+activatables('page', ['product_details', 'supplier_details', 'transact_details']);
+</script>
+
+</div><!--End of tabbed content -->
+</div><!--End of product section -->
+
+
+
+
+<div class="cb"></div>
+<br/><br/>
+
+<div class="container">
+
+<h2 class="trigger"><a><strong> Find out what People who Reviewed this Product also Reviewed</strong></a></h2>
+	<div class="toggle_container">
+	<div class="block">
+		{% for p in p.cross_sells_user %}
+			{% include 'tags/product_thumbnail.html' %}
+		{% empty %}
+			No related products.
+		{% endfor %}
+	</div>
+	</div>
+</div>
+<div class="cb"></div>
+
+<div class="container">
+
+<h2 class="trigger"><a><strong>Product Description</strong></a></h2>
+	<div class="toggle_container">
+	<div class="block">
+		{{ p.description }}
+	</div>
+	</div>
+</div>
+
+<div class="cb"><br /></div>
+
+
+<div class="container">
+
+<h2 class="trigger"><a><strong>Product Reviews</strong></a></h2>
+	<div class="toggle_container">
+	<div class="block">
+
+<div id="reviews">
+
+ {% autopaginate product_reviews 4 %}
+
+{% for review in product_reviews %}<br/>
+	{% include 'pdcts/product_review.html' %}
+
+{% empty %}
+
+<div id="no_reviews">
+          <div class="comment_item"> No Reviews </div>
+</div>
+{% endfor %}
+<br/>
+ {% paginate %}
+
+<br/>
+
+{% if request.user.is_authenticated and p.user == request.user%}
+<a href="{% url "product_info" product_slug=p.slug %} ">Edit this Product Details</a>
+{% else %}
+
+{% if request.user.is_authenticated  %}
+
+<a name="add_review" id="add_review">Write a Review and share your opinions! </a>
+<div id="review_form">
+
+
+<fieldset class="my_review">
+<legend>Your Review</legend>
+<div id="review_errors"></div>
+   {{ review_form.non_field_errors }} 
+
+	<table style="width:100%" >
+
+    {% for field in review_form %}
+        <div class="fieldWrapper">
+            <tr style="height:100%">
+		<td><div class ='label_req'>{{ field.label_tag }}: {% if field.field.required %}<span class="special_class"></span>{% endif %}</div></td>
+		<td>{{ field }}</td>
+	   </tr>
+        </div>
+    {% endfor %}   
+	<tr><td></td><td></td></tr>
+<tr>
+<td><input type="hidden" id="id_slug" value="{{ p.slug }}" /></td>
+<td><input type="submit" id="submit_review" value="Submit" class = 'positive' />
+    <input type="submit" id="cancel_review" value="Cancel" class = 'negative' /></td>
+</tr>
+
+        </table>
+
+</fieldset>
+</div>
+
+
+{% else %}
+<a href="{% url "login" %}?next={{ request.path }}"> Log in to Write a Review and share your opinions!</a>
+{% endif %}
+
+{% endif %}
+
+<div class="cb"><br /></div>
+<!--{{p.user}}
+{{request.user}}
+{{p.product_reviews.user}} -->
+
+</div>
+</div>
+</div>
+
+</div>
+
+</div>
+
+</div>
+{% endblock %}
+

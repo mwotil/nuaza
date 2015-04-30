@@ -1,0 +1,58 @@
+{% extends "catalog.html" %}
+{% load ajax_form_utils %}
+{% block content %}
+
+<style type="text/css">
+ .label_req {
+  text-align: right;
+  width: 100%;
+  float: left;
+  clear: left;
+  margin-right: 20px;
+  cursor: pointer;
+  display: block;
+}
+</style>
+
+
+<div id="add" class="add_form">
+
+<form enctype='multipart/form-data' action="." method="post"> {% csrf_token %}
+
+<h1>
+        Reply to the Buyer. <i>(Fields marked by * are required.)</i>
+
+      </h1>
+    <div class="formbody">
+
+{% if form.errors %}
+<div id="form-error">
+	<p>There were errors in your form. Please correct the following and resubmit the form.</p>
+	<ul>
+	{% for field in form %}
+		{% if field.errors %}	
+			<li> {{ field.errors|striptags }} </li>
+		{% endif %}
+	{% endfor %}
+	</ul>
+</div>
+{% endif %}
+
+	<table style="width:100%" >
+
+    {% for field in form %}
+        <div class="fieldWrapper">
+            <tr style="height:100%">
+		<td><label><div class ='label_req'>{{ field.label_tag }}: {% if field.field.required %}<span class="special_class"></span>{% endif %}</div></label></td>
+		<td>{{ field }}</td>
+	   </tr>
+        </div>
+    {% endfor %}   
+	<tr><td></td><td></td></tr>
+	<tr><td></td><td><input type="submit" value="Reply to Buy"/></td></tr>
+        </table>
+</form>
+
+</div></div>
+
+{% endblock %}

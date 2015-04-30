@@ -1,0 +1,12 @@
+{% for p in products %}
+	{% if forloop.first %}
+		<div class="center_title_bar">{{ header_text }}<hr/> </div>
+	{% endif %}
+	{% include 'tags/product_thumbs_list.html' %}
+	{% if forloop.last %}
+		<div class="cb">&nbsp;</div>
+		<div class="cb">&nbsp;</div>
+	{% endif %}
+{% endfor %}
+
+ <br/>

@@ -1,0 +1,38 @@
+[ 
+  {
+    "pk": 17, 
+    "model": "checkout.order", 
+    "fields": {
+      "last_updated": "2012-05-25 15:23:41", 
+      "billing_name": "Alex", 
+      "billing_district": "United States", 
+      "email": "mycampuser.com@gmail.com", 
+      "transaction_id": "431239899", 
+      "status": 1, 
+      "shipping_name": "Alex", 
+      "shipping_district": "Beach Town", 
+      "billing_address_1": "CoCIS Makerere", 
+      "billing_address_2": "", 
+      "user": 12, 
+      "shipping_state": "CA", 
+      "date": "2012-05-25 15:23:41", 
+      "ip_address": "127.0.0.1", 
+      "shipping_address_1": "Kapchorwa", 
+      "shipping_address_2": "", 
+      "billing_district": "Beach Town", 
+      "phone": "0714-444-555", 
+      "shipping_district": "United States", 
+      "billing_location": "CA"
+    }
+  },  
+  {
+    "pk": 14, 
+    "model": "checkout.orderitem", 
+    "fields": {
+      "product": 1, 
+      "order": 17, 
+      "price": "2493.99", 
+      "quantity": 1
+    }
+  }
+]

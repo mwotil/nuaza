@@ -1,0 +1,139 @@
+import django_tables2 as tables
+from Nuaza.pdcts.models import *
+from django.utils.safestring import mark_safe
+from django.core.urlresolvers import reverse
+from Nuaza.checkout.models import Order
+
+class ActionColumn(tables.Column):
+     def render(self, value):
+         return mark_safe('<a href="/reply_transact/%s/"> Accept/Reject </a>' % value)
+
+TEMPLATE = '''
+   <a href="{% url reply_transact transact_id %}">Action</a>
+'''
+
+
+class PdctBidsTable(tables.Table):
+    date = tables.Column(verbose_name='Bid Date')
+    product = tables.Column()
+    user = tables.Column(verbose_name='Buyer')
+    bid_price = tables.Column()
+    status = tables.Column()
+    quantity = tables.Column()
+    Action = tables.Column()
+
+    def render_Action(self, record):
+        action_url = reverse("reply_transact", args=[record.pk])
+        return mark_safe('''<a href="%s" class="tbl_icon edit">Accept or Reject</a>''' % action_url)
+
+#    def render_product(self, record):
+#        product_url = reverse("show_product", args=[record.product.slug])
+#        return mark_safe('''<a href="%s" class="tbl_icon edit">"%s"</a>''' % (product_url,product)) 
+
+
+    class Meta:
+        model = Transaction
+	exclude = ("transact_id",)
+
+class ThemedPdctBidsTable(PdctBidsTable):
+    class Meta:
+        attrs = {'class': 'paleblue','width':'100%'}
+
+
+
+
+class MyBidsTable(tables.Table):
+    date = tables.Column(verbose_name='Bid Date')
+    product = tables.Column()
+    bid_price = tables.Column()
+    status = tables.Column()
+    quantity = tables.Column()
+    Seller = tables.Column()
+
+    def render_Seller(self, record):
+	if record.status=="Accepted":
+        	seller_url = reverse("contact_seller", args=[record.product.user])
+        	return mark_safe('''<a href="%s" class="tbl_icon edit">Contact Seller</a>''' % seller_url)
+	else:
+        	return mark_safe('''Pending Seller Approval''')
+
+
+    class Meta:
+        model = Transaction
+	exclude = ("transact_id","user",)
+
+class ThemedMyBidsTable(MyBidsTable):
+    class Meta:
+        attrs = {'class': 'paleblue','width':'100%'}
+
+
+
+
+
+class PdctBuysTable(tables.Table):
+    date = tables.Column(verbose_name='Bid Date')
+    product = tables.Column()
+    user = tables.Column(verbose_name='Buyer')
+#    bid_price = tables.Column()
+    status = tables.Column()
+    quantity = tables.Column()
+    Action = tables.Column()
+
+    def render_Action(self, record):
+        action_url = reverse("reply_buy", args=[record.pk])
+        return mark_safe('''<a href="%s" class="tbl_icon edit">Accept or Reject</a>''' % action_url)
+
+
+    class Meta:
+        model = Buys
+	exclude = ("buy_id","bid_price",)
+
+class ThemedPdctBuysTable(PdctBuysTable):
+    class Meta:
+        attrs = {'class': 'paleblue','width':'100%'}
+
+
+
+
+class MyBuysTable(tables.Table):
+    date = tables.Column(verbose_name='Bid Date')
+    product = tables.Column()
+#    bid_price = tables.Column()
+    status = tables.Column()
+    quantity = tables.Column()
+    Seller = tables.Column()
+
+    def render_Seller(self, record):
+
+	if record.status=="Accepted":
+        	seller_url = reverse("contact_seller", args=[record.product.user])
+        	return mark_safe('''<a href="%s" class="tbl_icon edit">Contact Seller</a>''' % seller_url)
+	else:
+        	return mark_safe('''Pending Seller Approval''')
+
+
+
+    class Meta:
+        model = Buys
+	exclude = ("buy_id","user",)
+
+class ThemedMyBuysTable(MyBuysTable):
+    class Meta:
+        attrs = {'class': 'paleblue','width':'100%'}
+
+
+class MyOrdersTable(tables.Table):
+    date = tables.Column(verbose_name='Order Date')
+    status = tables.Column()
+    transaction_id = tables.Column()
+
+    class Meta:
+        model = Order
+	exclude = ("email","phone","shipping_name","shipping_address_1","shipping_address_2",
+		"shipping_location","shipping_district",
+		"billing_name","billing_address_1","billing_address_2","billing_location","billing_district",
+		"ip_address","last_updated",)
+
+class ThemedMyOrdersTable(MyOrdersTable):
+    class Meta:
+        attrs = {'class': 'paleblue','width':'100%'}

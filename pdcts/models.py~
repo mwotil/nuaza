@@ -1,0 +1,336 @@
+from django.db import models
+#from django.forms import ModelForm
+#from django import forms
+from django.contrib.auth.models import User
+#from accounts.models import UserProfile
+from stdimage import StdImageField
+from djangoratings.fields import RatingField
+import moderaptor
+from autoslug import AutoSlugField
+#from secretballot.models import Vote
+
+class ActiveSuperCategoryManager(models.Manager):
+    def get_query_set(self):
+        return super(ActiveSuperCategoryManager, self).get_query_set().all()
+
+class SuperCategory (models.Model):
+	supercategory_name = models.CharField(max_length = 25)
+	slug = AutoSlugField(unique=True)
+	created_at = models.DateTimeField(auto_now_add=True)
+
+	objects = models.Manager()
+	active = ActiveSuperCategoryManager()
+
+	def __unicode__ (self):
+		return self.supercategory_name
+
+	class Meta:
+		db_table ='supercategory'
+		ordering = ['supercategory_name']
+		verbose_name_plural = 'Supercategories'
+
+	@models.permalink
+	def get_absolute_url(self):
+		return ('pdcts_supercategory', (), { 'supercategory_slug': self.slug })
+
+
+class ActiveCategoryManager(models.Manager):
+    def get_query_set(self):
+        return super(ActiveCategoryManager, self).get_query_set().all()
+
+class Category (models.Model):
+	category_name = models.CharField(max_length = 25)
+	slug = AutoSlugField(unique=True)
+	description = models.TextField()
+	created_at = models.DateTimeField(auto_now_add=True)
+	supercategory = models.ForeignKey(SuperCategory)
+
+	objects = models.Manager()
+	active = ActiveCategoryManager()
+
+	def __unicode__ (self):
+		return self.category_name
+
+	class Meta:
+		db_table ='category'
+		ordering = ['-created_at']
+		verbose_name_plural = 'Categories'
+
+	@models.permalink
+	def get_absolute_url(self):
+		return ('pdcts_category', (), { 'category_slug': self.slug })
+
+class ActiveStoreManager(models.Manager):
+    def get_query_set(self):
+        return super(ActiveStoreManager, self).get_query_set().all()
+
+class Store (models.Model):
+	store_name = models.CharField(max_length = 25)
+	slug = AutoSlugField(unique=True)
+	description = models.TextField()
+	contacts = models.TextField()
+	rating = RatingField(range=5)
+
+	objects = models.Manager()
+	active = ActiveStoreManager()
+
+	def __unicode__ (self):
+		return self.store_name
+
+	class Meta:
+		db_table ='store'
+		ordering = ['-store_name']
+		verbose_name_plural = 'stores'
+	
+	@models.permalink
+	def get_absolute_url(self):
+		return ('pdcts_store', (), { 'store_slug': self.slug })
+
+
+class ActiveProductManager(models.Manager):
+    def get_query_set(self):
+        return super(ActiveProductManager, self).get_query_set().filter(is_active=True)
+        
+class FeaturedProductManager(models.Manager):
+    """ Manager class to return only those products where each instance is featured """
+    def get_query_set(self):
+        return super(FeaturedProductManager, self).get_query_set().filter(is_featured=True)
+
+class BestsellerProductManager(models.Manager):
+    """ Manager class to return only those products where each instance is best selling """
+    def get_query_set(self):
+        return super(BestsellerProductManager, self).get_query_set().filter(is_bestseller=True)
+
+class Product (models.Model):
+	product_name = models.CharField(max_length = 50)
+	slug = AutoSlugField(unique=True, populate_from='product_name', editable=True)
+#	product_image = StdImageField(upload_to = 'images/products/main', size=(300, 400, True))
+#	product_thumbnail = StdImageField(upload_to = 'images/products/thumbnails', size=(100, 100, True),)
+	product_image = StdImageField(upload_to='images/products/main', blank=True, size=(350, 400), thumbnail_size=(100, 100, True)) 
+# all previous features in one declaration
+	rating = RatingField(range=5)
+	Category = models.ManyToManyField(Category)
+	brand = models.CharField(max_length = 25)
+	manufacturer = models.CharField(max_length = 25)
+	Store = models.ForeignKey(Store, null=True)
+	price = models.DecimalField(max_digits = 10, decimal_places = 2, null=True, blank=True)
+	quantity = models.IntegerField(max_length=4,default=1)
+	submitted_at = models.DateTimeField(auto_now_add=True)
+	description = models.TextField()
+	product_type = models.CharField(max_length = 25)
+	product_condition = models.CharField(max_length = 25)
+	product_pricing = models.CharField(max_length = 25)
+	is_active = models.BooleanField(default=False)
+    	is_bestseller = models.BooleanField(default=False)
+    	is_featured = models.BooleanField(default=False)
+	user = models.ForeignKey(User)
+
+	objects = models.Manager()
+	active = ActiveProductManager()
+	featured = FeaturedProductManager()
+	bestseller = BestsellerProductManager()
+
+	def __unicode__ (self):
+		return self.product_name
+
+	class Meta:
+		db_table ='product'
+		ordering = ['-submitted_at']
+		verbose_name_plural = 'Products'
+	
+	@models.permalink
+	def get_absolute_url(self):
+		return ('pdcts_product', (), { 'product_slug': self.slug })
+
+
+	def cross_sells_user(self):
+		""" gets other Product instances s who also ordered the current
+		instance. Uses all past orders of each registered customer and not just the order in which the current 
+		instance was purchased	"""
+		from mysite.pdcts.models import ProductReview
+		from django.contrib.auth.models import User
+		users = User.objects.filter(productreview__product=self)
+		items = ProductReview.objects.filter(user__in=users).exclude(product=self)
+		products = Product.active.filter(productreview__in=items).distinct()
+		return products
+
+class ActiveProductReviewManager(models.Manager):
+	def all(self):
+		return super(ActiveProductReviewManager, self).all().filter(is_approved=True)
+
+class ProductReview(models.Model):
+	id = models.AutoField(primary_key=True)
+	product = models.ForeignKey(Product)
+	user = models.ForeignKey(User)
+	title = models.CharField(max_length=50)
+	date = models.DateTimeField(auto_now_add=True)
+	rating = models.FloatField()
+	Store = models.ForeignKey(Store, null=True)
+	is_approved = models.BooleanField(default=True)
+	content = models.TextField()
+	objects = models.Manager()	
+	approved = ActiveProductReviewManager()
+	slug = AutoSlugField(unique=True)
+#	votes = models.ForeignKey(Vote, related_name='votez')
+
+	def __unicode__ (self):
+		return self.title
+
+	@models.permalink
+	def get_absolute_url(self):
+		return ('pdcts_review', (), { 'review_slug': self.slug })
+
+#secretballot.enable_voting_on(ProductReview, votes_name = 'votes')
+
+
+class ActiveStoreReviewManager(models.Manager):
+	def all(self):
+		return super(ActiveStoreReviewManager, self).all()
+
+class StoreReview(models.Model):
+	product = models.ForeignKey(Product)
+	store = models.ForeignKey(Store)
+	rating = RatingField(range=5)
+
+	objects = models.Manager()
+	approved = ActiveStoreReviewManager()
+
+
+class ActiveReplyManager(models.Manager):
+	def all(self):
+		return super(ActiveReplyManager, self).all().filter(is_approved=True)
+
+class Review_Reply(models.Model):
+	id = models.AutoField(primary_key=True)
+	review = models.ForeignKey(ProductReview)
+	user = models.ForeignKey(User)
+	date = models.DateTimeField(auto_now_add=True)
+	is_approved = models.BooleanField(default=True)
+	reply = models.TextField()
+	rate_objective = models.FloatField()
+	rate_complete = models.FloatField()
+
+	objects = models.Manager()
+	approved = ActiveReplyManager()
+
+class ActiveUser_ReputationManager(models.Manager):
+	def all(self):
+		return super(ActiveUser_ReputationManager, self).all()
+
+
+class User_Reputation(models.Model):
+	user = models.ForeignKey(User)
+	reputation = models.FloatField()
+	entity_alpha = models.FloatField()
+	entity_beta = models.FloatField()
+	votes = models.FloatField()
+
+	objects = models.Manager()
+	approved = ActiveUser_ReputationManager()
+
+	def __unicode__ (self):
+		return self.reputation
+
+
+class ActiveReputation_CheckManager(models.Manager):
+	def all(self):
+		return super(ActiveReputation_CheckManager, self).all()
+
+class Reputation_Check(models.Model):
+	reputation = models.ForeignKey(User_Reputation)
+	user = models.ForeignKey(User)
+
+	objects = models.Manager()
+	approved = ActiveReputation_CheckManager()
+
+	def __unicode__ (self):
+		return self.reputation
+
+	class Meta:
+		db_table ='reputation_check'
+
+class ActiveTransactionManager(models.Manager):
+	def all(self):
+		return super(ActiveTransactionManager, self).all()
+
+class Transaction (models.Model):
+	transact_id = models.AutoField(primary_key=True)
+	date = models.DateTimeField(auto_now_add=True)
+	product = models.ForeignKey(Product)
+	user = models.ForeignKey(User)
+	bid_price = models.DecimalField(max_digits = 10, decimal_places = 2)
+	status = models.CharField(max_length=25)
+	quantity = models.IntegerField(max_length=4,default=1)
+
+	objects = models.Manager()
+	active = ActiveTransactionManager()
+
+	def __unicode__ (self):
+		return self.product
+
+	class Meta:
+		db_table ='transaction'
+		ordering = ['-product']
+
+
+class ActiveBuysManager(models.Manager):
+	def all(self):
+		return super(ActiveBuysManager, self).all()
+class Buys (models.Model):
+	buy_id = models.AutoField(primary_key=True)
+	date = models.DateTimeField(auto_now_add=True)
+	product = models.ForeignKey(Product)
+	user = models.ForeignKey(User)
+	status = models.CharField(max_length=25)
+	quantity = models.IntegerField(max_length=4,default=1)
+	price = models.DecimalField(max_digits = 10, decimal_places = 2)
+
+	objects = models.Manager()
+	active = ActiveBuysManager()
+
+	def __unicode__ (self):
+		return self.product
+
+	class Meta:
+		db_table ='buys'
+		ordering = ['-product']
+
+
+class Feedback (models.Model):
+	feedback_id = models.AutoField(primary_key=True)
+	product = models.ForeignKey(Product)
+	user = models.ForeignKey(User)
+	rating = models.FloatField()
+	comment = models.TextField()
+
+
+	def __unicode__ (self):
+		return self.rating
+
+	class Meta:
+		db_table ='feedback'
+		ordering = ['-rating']
+
+class Photo(models.Model):
+        title = models.CharField(max_length=255,blank=True)
+        photo = models.FileField(upload_to='photos')
+        description = models.TextField(blank=True)
+        uploaded = models.DateTimeField(auto_now_add=True)
+        modified = models.DateTimeField(auto_now=True)
+        class Meta:
+            db_table = 'Android_photos'
+        def __unicode__(self):
+            return '%s' % self.title
+
+
+	
+#	@models.permalink
+#	def get_absolute_url(self):
+#		return ('pdcts_store', (), { 'store_slug': self.slug })
+
+try:
+    moderaptor.register(ProductReview) #example model
+except moderaptor.AlreadyRegistered:
+    pass  
+
+

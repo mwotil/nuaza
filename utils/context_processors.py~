@@ -1,0 +1,17 @@
+from mysite.pdcts.models import Category, Store, SuperCategory
+from mysite.pdcts.models import Product
+from mysite import settings
+
+def mysite(request):
+	return {
+		'supercategory': SuperCategory.objects.all(),
+		'category': Category.objects.all(),
+		'store': Store.objects.order_by('-rating_votes')[:5],
+		'latest': Product.objects.order_by('-submitted_at')[:5],
+		'reviewed': Product.objects.order_by('-rating_votes')[:5],
+		'site_name': settings.SITE_NAME,
+		'meta_keywords': settings.META_KEYWORDS,	
+		'meta_description': settings.META_DESCRIPTION,
+		'request': request
+	}
+

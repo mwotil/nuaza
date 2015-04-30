@@ -1,0 +1,63 @@
+{% load my_date_filter %}
+{% load mod_report %}
+{% load truncate_filters %}
+
+<style type="text/css">
+label {
+  text-align: right;
+  width: 100px;
+  display: block;
+  float: left;
+  clear: left;
+  margin-right: 3px;
+  cursor: pointer
+}
+</style>
+
+
+<div id = "rev">
+<div class="review">
+
+	<div id="comment_list">
+        
+          <div class="comment_item">
+            <div class="comment_head">
+              <div class="comment_rating">
+
+     		<input name="star_{{review.id}}" type="radio" class=" star star_{{review.id}}" disabled="disabled"/>
+     		<input name="star_{{review.id}}" type="radio" class=" star star_{{review.id}}" disabled="disabled"/>
+     		<input name="star_{{review.id}}" type="radio" class=" star star_{{review.id}}" disabled="disabled"/>
+     		<input name="star_{{review.id}}" type="radio" class=" star star_{{review.id}}" disabled="disabled"/>
+     		<input name="star_{{review.id}}" type="radio" class=" star star_{{review.id}}" disabled="disabled"/> 
+
+                <script type="text/javascript">
+                 var rr = {{review.rating|default:"0"}};
+			rf = Math.floor(rr);
+                  if (rf != 0) {
+            		jQuery("input:radio.star_{{review.id}}")[rf-1].checked = 'checked';
+                  }
+                </script>
+
+              </div>
+              <div class="comment_user">by {{ review.user.username }}</div>
+              <div class="comment_date">Posted {{ review.date|ago}}</div>
+            </div>
+            <div class="comment_title">{{ review.title}}</div><br/>
+            <div class="comment_body"> {{review.content|truncate_chars:400}} </div>
+
+
+<a href = "{{review.get_absolute_url}}"><strong><u>Read the full Review</u></strong></a> <br/>
+
+
+
+    </div>
+
+
+</div>
+
+</div>
+
+</div>
+
+
+

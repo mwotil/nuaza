@@ -1,0 +1,68 @@
+{% extends "catalog.html" %}
+{% load my_date_filter %}
+{% load pagination_tags %}
+{% block content %}
+
+<script type="text/javascript">
+	$(document).ready(function() {
+			$(".delete").easyconfirm();
+			$("#confirm").click(function() {
+				alert("The Product will be Deleted Later On Admin Notification");
+			});		
+	});
+</script>
+
+<style type="text/css">
+	.ui-dialog { font-size: 11px; }
+
+	#question {
+		width: 300px!important;
+		height: 60px!important;
+		padding: 10px 0 0 10px;
+	}
+	#question img {
+		float: left;
+	}
+	#question span {
+		float: left;
+		margin: 20px 0 0 10px;
+	}
+
+	.delete {
+		border: 0px solid #D7F0E8;
+	}	
+
+</style>
+
+<div id="product" class="product_form">
+<div class ="data">  
+
+<strong>Welcome, {{ name|capfirst }}!</strong> to Your My Campus Home<br /><br />
+
+
+<b>Settings</b>
+<hr/>
+
+  <div class="title_account">My Transactions</div>
+  <ul>
+	<li> <a href="{% url "my_transactions" %} ">Check Transactions </a> </li>
+
+  </ul>
+
+<br/><hr/>
+
+  <div class="title_account">My Account</div>
+  <ul>
+	<li> <a href="{% url "django.contrib.auth.views.password_change" %}">Change Password </a> </li> <br/>
+	<li> <a href="{% url "profile_info" %} ">Edit Profile </a> </li>
+  </ul>
+
+<br/><hr/>
+
+
+</div>
+
+</div>
+
+{% endblock %}
+

@@ -1,0 +1,59 @@
+from django.forms import ModelForm
+from django.shortcuts import get_object_or_404, render_to_response
+from django import forms
+from django.db.models import Q
+from django.template import RequestContext
+from django.contrib.auth.models import User
+from captcha.fields import CaptchaField
+from models import Request
+from Nuaza.pdcts.forms import HorizRadioRenderer
+
+CONDITION_CHOICES = (
+#    ('', '--Select Product Condition--'),
+    ('New', 'New'),
+    ('Used', 'Used'),
+)
+
+PRICING_CHOICES = (
+#    ('', '--Select Pricing Options--'),
+    ('Fixed', 'Fixed'),
+    ('Negotiable', 'Negotiable'),
+)
+
+class RequestForm(ModelForm):
+	def __init__(self, *args, **kwargs):
+	        super(RequestForm, self).__init__(*args, **kwargs)
+		self.fields['product_name'].error_messages['required'] = 'Please choose a Product Name'
+		self.fields['price'].error_messages['required'] = 'The price is required'
+#		self.fields['description'].error_messages['required'] = 'The description of your product is required'
+		self.fields['product_pricing'].error_messages['required'] = 'Select a Pricing Option'
+		self.fields['product_condition'].error_messages['required'] = 'Choose the Product Condition'
+		self.fields['quantity'].error_messages['required'] = 'Enter the Quantity'
+		self.fields['quantity'].error_messages['invalid'] = 'Enter a valid Quantity value'
+
+	product_condition = forms.ChoiceField(choices=CONDITION_CHOICES, widget=forms.RadioSelect(renderer=HorizRadioRenderer))
+	product_pricing = forms.ChoiceField(choices=PRICING_CHOICES, widget=forms.RadioSelect(renderer=HorizRadioRenderer))
+	captcha = CaptchaField(output_format=u'%(image)s %(hidden_field)s %(text_field)s', error_messages = {'required':("The captcha field is Required")} )
+
+	class Meta:
+		model = Request
+		exclude = ('submitted_at','is_active','user',)
+
+	def clean_price(self):
+		if self.cleaned_data['price'] <= 0:
+			raise forms.ValidationError('Price must be greater than zero.')
+		return self.cleaned_data['price']
+
+	def clean_quantity(self):
+		if self.cleaned_data['quantity'] <= 0:
+			raise forms.ValidationError('Quantity must be greater than zero.')
+		return self.cleaned_data['quantity']
+
+'''    	def clean_description(self):
+        	description = self.cleaned_data['description']
+        	num_words = len(description.split())
+        	if num_words < 4:
+            		raise forms.ValidationError("Not enough words for the Description!")
+        	return description
+'''
+

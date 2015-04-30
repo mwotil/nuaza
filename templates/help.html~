@@ -1,0 +1,35 @@
+{% extends "catalog.html" %}
+{% block content %}
+
+<div id="product" class="product_form">
+<div class ="data">
+
+My Campuser is an online campus e-trading portal. Before you can start to utilize all the feaures that are built into the site, it is highly recommended to register for a local account. After registering for your free account, you can continue to edit your profile. <br/><br/>
+
+Editing your profile will enable buyers of your commodities to easily reach you and pay for them. <br/><br/>
+
+<ol id="toc">
+    <li><a href="#product_details"><span>Product Details</span></a></li>
+    <li><a href="#supplier_details"><span>Supplier Details</span></a></li>
+</ol>
+
+<div class="tabcontent" id="product_details">
+Theses are the product details
+</div>
+
+<div class="tabcontent" id="supplier_details">
+These are the supplier details
+</div>
+
+
+<script src="{{ MEDIA_URL }}js/activatables.js" type="text/javascript"></script>
+<script type="text/javascript">
+activatables('page', ['product_details', 'supplier_details']);
+</script>
+
+</div></div>
+
+
+
+{% endblock %}
+

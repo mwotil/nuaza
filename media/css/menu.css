@@ -1,0 +1,69 @@
+#product_detail {
+	float: left;
+	padding-right: 10px;
+	width: auto
+}
+
+#product_detail UL {
+	PADDING-BOTTOM: 0px; 
+	LIST-STYLE-TYPE: none; 
+	MARGIN: auto; 
+	PADDING-LEFT: 0px; 
+	PADDING-RIGHT: 0px; 
+	PADDING-TOP: 0px
+}
+
+#product_detail h4 {
+	padding-top: 20px;
+	font-size: 16px;
+}
+#product_detail UL LI {
+	TEXT-ALIGN: left; 
+	LINE-HEIGHT: 26px; 
+
+}
+#product_detail UL LI A {
+	COLOR: blue; 
+	TEXT-DECORATION: none
+}
+#product_detail UL LI A:hover {
+	COLOR: #333; 
+	TEXT-DECORATION: underline
+}
+#product_detail UL LI LABEL {
+	TEXT-ALIGN: right; 
+	WIDTH: 90px; 
+	PADDING-RIGHT: 8px; 
+	FLOAT: left; 
+	font-weight:bold;
+}
+
+.seller {
+	margin-left: 50px;
+	float: left;
+	padding-left: 20px;
+	padding-top: 20px;
+	border: 0px solid #DCDCDC;
+	padding-right: 20px;
+	width: auto;
+}
+
+.data .product_image{
+	clear: both;
+	width: auto;
+}
+
+.seller h4 {
+	font-size: 14px;
+	font-weight: small;	
+}
+
+.seller a {
+	COLOR: blue; 
+	TEXT-DECORATION: none
+}
+.seller a:hover {
+	COLOR: #333; 
+	TEXT-DECORATION: underline
+}
+

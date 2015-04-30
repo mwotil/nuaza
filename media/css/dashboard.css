@@ -1,0 +1,86 @@
+table {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 60%;
+    height: 100%;
+    margin: auto;
+    text-align:center;
+  }
+
+.main_dashboard {
+    padding-top: 2%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 745px;
+    height: 90%;
+    margin: auto;
+    text-align:center;
+/*    background-color: blue; */
+}
+
+
+.left_dash{
+   width: auto;
+   height: 100%;
+   float: left
+
+}
+
+.right_dash{
+   width: auto;
+   height: 100%;
+   float: left
+}
+
+#landing-site{
+   width:318px;
+   height: 140px;
+   background: url(images/landing-site.png) no-repeat center left;
+   float: left;
+}
+
+#landing-bid{
+   width:318px;
+   height: 140px;
+   background: url(images/landing-bid.png) no-repeat center left;
+   float: left;
+   padding-bottom: 28px;
+}
+
+#landing-sell{
+   width:318px;
+   height: 140px;
+   background: url(images/landing-sell.png) no-repeat center left;
+   float: left
+   padding-bottom: 28px;
+}
+
+#landing-help{
+   width:318px;
+   height: 140px;
+   background: url(images/landing-help.png) no-repeat center left;
+   float: left;
+   padding-bottom: 28px;
+}
+
+#mycampuser{
+   width:400px;
+   height: 600px;
+   background: url(images/mycampuser.jpg) no-repeat center left;
+   float: left;
+   margin-left: 20px;
+}
+
+.cb{clear:both;}
+
+
+
+
+
+

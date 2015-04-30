@@ -1,0 +1,24 @@
+<div id = "account_status"> <br/>
+{% if user.is_authenticated %}
+	Welcome <a >{{ user|capfirst }}</a> to C2C. 
+	<a href="{% url "django.contrib.auth.views.logout" %}">Logout</a> <br/><br/>
+{% else %}
+	Welcome to C2C. 
+	New consumer? <a href="{% url "register" %}">Join C2C</a>
+	or <a href="{% url "django.contrib.auth.views.login" %}">Sign In</a> <br/><br/>
+{% endif %}
+
+</div>
+
+<div id="chromemenu">
+  <ul>
+	<li> <a href="/add/" title="Submit"> Submit Product </a> </li>
+	<li> <a href="/contact/"> Contact Us </a> </li>
+	<li> <a href="/about/" title="About">About Us</a> </li>
+	<li> <a href="/privacy/">Privacy Policy</a> </li>
+
+</ul>	
+
+</div>
+
+	

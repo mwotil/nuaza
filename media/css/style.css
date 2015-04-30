@@ -1,0 +1,62 @@
+#chromemenu{
+width: 100%;
+font-weight: medium;
+font-size: 99%;
+}
+
+#chromemenu:after{ /*Add margin between menu and rest of content in Firefox*/
+content: "."; 
+display: block; 
+height: 0; 
+clear: both; 
+visibility: hidden;
+}
+
+#account_status{
+text-align: center;
+}
+
+#account_help a {
+font-size: 100%;
+font-weight: medium;
+padding: 5px;
+margin: 0;
+text-decoration: none;
+border-right: 1px;
+}
+
+#account_help a:hover {
+text-decoration:underline;
+color: #FF8C00;
+}
+
+
+#chromemenu ul{
+border: 0px solid #BBB;
+width: 100%;
+padding: 5px 0;
+margin: 0;
+text-align: center; /*set value to "right" for example to align menu to the left of page*/
+}
+
+#chromemenu ul li{
+display: inline;
+}
+
+#chromemenu ul li a{
+font-size: 100%;
+font-weight: medium;
+padding: 5px;
+margin: 0;
+text-decoration: none;
+border-right: 1px;
+}
+
+#chromemenu ul li a:hover{
+text-decoration: underline;
+color: #FF8C00;
+}
+
+.content_body {
+text-align: justify;
+}

@@ -1,0 +1,8 @@
+<div class="arrowlistmenu">
+  <div class="title_box">Most Reviewed</div>
+  <ul>
+		{% for p in reviewed %}
+			<li> <a href="{{ p.get_absolute_url }}">{{ p.product_name }}</a> </li>
+		{% endfor %}
+  </ul>
+</div>

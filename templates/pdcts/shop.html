@@ -1,0 +1,29 @@
+{% extends "catalog.html" %}
+{% load pagination_tags %}
+{% block content %}
+
+<div id="product" class="product_form">
+<div class ="data">
+
+<div class = "shop">
+		{% for sc in s %}
+			 <a href="#"><div class="center_title_bar"><strong>{{ sc.supercategory_name }}</strong></div> <br/> <br/>
+
+				<ul id = "shop_cat">
+					{% for cat in c %}
+					   {% if cat.supercategory = sc %}
+					      <li> <a href="{{ cat.get_absolute_url }}">{{ cat.category_name }}</a> </li>
+					   {% endif %}
+					{% endfor %}
+				
+				</ul>
+
+		<br/>	
+		{% endfor %} 
+</div>
+
+</div></div>
+
+{% endblock %}
+
+

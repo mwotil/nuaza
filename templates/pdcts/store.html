@@ -1,0 +1,65 @@
+{% extends "catalog.html" %}
+
+{% load pagination_tags %}
+
+
+{% block content %}
+
+<div id="product" class="product_form">
+<div class ="data">
+
+ <div class="center_title_bar">{{ s.store_name }}</div> <br/><br/>
+ 
+           <div class="prod_price"><span class="price">
+     		<input name="star_{{s.id}}" type="radio" class=" star star_{{s.id}}" disabled="disabled"/>
+     		<input name="star_{{s.id}}" type="radio" class=" star star_{{s.id}}" disabled="disabled"/>
+     		<input name="star_{{s.id}}" type="radio" class=" star star_{{s.id}}" disabled="disabled"/>
+     		<input name="star_{{s.id}}" type="radio" class=" star star_{{s.id}}" disabled="disabled"/>
+     		<input name="star_{{s.id}}" type="radio" class=" star star_{{s.id}}" disabled="disabled"/>
+ 
+          <script type="text/javascript">
+            var rr = {{s.rating_score|default:"0"}};
+            if (rr != 0) {
+                var rrf = rr/{{s.rating_votes}};
+                rrf = Math.floor(rrf);
+            	$("input:radio.star_{{s.id}}")[rrf-1].checked = 'checked';
+            }
+          </script>
+</span></div>  
+
+Based on {{s.rating_votes}} Reviews
+
+
+<br/><br/>
+
+{{ s.description }}<br/><br/>
+Contacts:<br />
+{{ s.contacts }}
+<br /><br/>
+ <div class="center_title_bar">Products at {{ s.store_name }} </div>
+
+<h6>{% autopaginate products 8 %}
+{% paginate %} </h6> <br/>
+
+{% for p in products %}
+
+      	<div class="prod_box">
+        	<div class="top_prod_box"></div>
+            <div class="center_prod_box">            
+                 <div class="product_title"> <a href="{{p.get_absolute_url}}"> {{ p.product_name }} </a> </div>
+                 <div class="product_img"> <a href="{{p.get_absolute_url}}"> <img src="{{ p.product_image.thumbnail.url }}" alt="No Preview" title="" border="0" /></a></div>
+                 <div class="prod_price"><span class="price">{{ p.price }} UGX</span></div>  
+                       
+            </div>
+            <div class="bottom_prod_box"></div>                                 
+        </div>
+
+{% empty %}
+
+No Products have been added to this Store
+
+{% endfor %}
+<br/><br/>
+</div></div>
+
+{% endblock %}

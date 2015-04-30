@@ -1,0 +1,121 @@
+{% extends "catalog.html" %}
+{% load my_date_filter %}
+{% load django_tables2 %}
+{% load pagination_tags %}
+
+{% block content %}
+
+<div id="product" class="product_form">
+<div class ="data">  
+<strong>Welcome, {{ request.user|capfirst }}!</strong> to Your Transactions Page<br />
+
+
+<div class="tab_trans_content"> <!--Start of tabbed content -->
+<center>
+<ol id="toc">
+    <li><a href="#my_orders"><span>My Orders</span></a></li>
+    <li><a href="#customer_requests"><span>Customer Requests</span></a></li>
+    <li><a href="#my_requests"><span>My Requests</span></a></li>
+    <li><a href="#my_products"><span>My Products</span></a></li>
+    <li><a href="#my_reviews"><span>My Reviews</span></a></li>
+</ol>
+</center>
+
+
+<div class="tabcontent" id="my_orders"> <!--start of js my orders -->
+<br/>
+<center> <b>Buyer Bids</b> <i>(Bids that have been made by My Campuser users for my items)</i> </center>
+<center>{% render_table themedpdctbids %}</center>
+<br/>
+
+<center><b>Direct Sales</b> <i>( Buyer offers for my fixed price products)</i></center>
+<center>{% render_table themedpdctbuys %}</center>
+
+</div><!--End of js my orders -->
+
+
+
+<div class="tabcontent" id="customer_requests"> <!--start of js customer requests -->
+<br/>
+<center> <b>Buyer Bids</b> <i>(Bids that have been made by My Campuser users for my items)</i> </center>
+<center>{% render_table themedpdctbids %}</center>
+<br/>
+
+<center><b>Direct Sales</b> <i>( Buyer offers for my fixed price products)</i></center>
+<center>{% render_table themedpdctbuys %}</center>
+
+</div><!--End of js customer requests -->
+
+<div class="tabcontent" id="my_requests"> <!--start of js my requests -->
+<br/>
+<center><b>My Bid Offers</b> <i>( Bids I have made and seller responses to them)</i></center>
+<center>{% render_table themedmybids %}</center><br/>
+
+<center><b>My Buy Offers</b> <i>( Buys you I have made and seller responses to them)</i></center>
+<center>{% render_table themedmybuys %}</center>
+
+</div><!--End of js my requests -->
+
+<div class="tabcontent" id="my_products"> <!--start of js my products -->
+<br/>
+{% autopaginate my_pdcts 8 %}
+{% paginate %}
+
+  {% for product_name in my_pdcts %}
+		<form id = 'del_form' name = 'del_form' enctype='multipart/form-data' action="/delete/" method="post" > {% csrf_token %}
+
+      	<div class="prod_box">
+        	<div class="top_prod_box"></div>
+            <div class="center_prod_box">            
+                 <div class="product_title"> <a href="{{product_name.get_absolute_url}}"> {{ product_name.product_name }} </a> </div>
+                 <div class="product_img"><a href="{{product_name.get_absolute_url}}"> <img src="{{ product_name.product_image.thumbnail.url }}" alt="No Preview" title="" border="0" /></a></div>
+                 <div class="prod_price"><a href="{% url "product_info" product_slug=product_name.slug %} "><span class="price">Edit Details</span></a></div>                          
+            </div>
+            <div class="bottom_prod_box"></div>                                 
+        </div>
+
+<!---<td><input type="submit" name ="delete" value="Delete" title="Are you sure you want this Product to be Deleted by C2C Administrators?" id="confirm" class="delete"/> </td>
+
+<td><a class="delete" id ="confirm" name ="delete" title="Are you sure you want this Product to be Deleted by C2C Administrators?">Delete this Product?</a></td> -->
+
+		</form>
+
+	{% empty %}
+		You have not Submitted any Commodity
+	{% endfor %}
+
+<div class="cb"></div><br/>
+</div><!--End of js my products -->
+
+<div class="tabcontent" id="my_reviews"> <!--start of js my reviews -->
+<br/>  
+<ul>{% for revs in my_revs %}
+	
+		<li> {{ revs.title }} <a href="{% url "review_info" review_slug=revs.slug %} ">(Edit Review)</a> <input type="hidden" name = 'slug' id="slug" value="{{ revs.slug }}" /> </li>
+
+	{% empty %}
+		You have made no Reviews
+	{% endfor %}
+  </ul>
+
+
+<br/>
+
+</div><!--End of js my reviews -->
+
+
+
+<script src="{{ MEDIA_URL }}js/activatables.js" type="text/javascript"></script>
+<script type="text/javascript">
+activatables('page', ['my_orders','customer_requests', 'my_requests', 'my_products', 'my_reviews']);
+</script>
+
+</div><!--End of tabbed content -->
+</div><!--End of product section -->
+
+</div>
+
+</div>
+
+{% endblock %}
+

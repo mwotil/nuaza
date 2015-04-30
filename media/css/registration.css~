@@ -1,0 +1,352 @@
+.login_form .formbody {
+padding: 2em;
+background-color: #fff;
+overflow: hidden;
+border-style: solid;
+border-width: 1px 1px 2px;
+border-color: #E9F1F4 #D8DEE2 #D8DEE2;
+border-radius: 0 0 3px 3px;
+-moz-border-radius: 0 0 3px 3px;
+-webkit-border-radius: 0 0 3px 3px;
+font-family: "Lucida Grande", Verdana, Arial, sans-serif;
+}
+
+#login {
+width: 500px;
+}
+
+.login_form {
+margin: auto;
+}
+
+* {
+margin: 0;
+padding: 0;
+}
+
+div {
+display: block;
+}
+
+.login_form h1 {
+font-weight: bold;
+color: #000;
+font-size: 13px;
+background: #DCDCDC;
+border: 1px solid #677C89;
+border-bottom-color: #6B808D;
+border-radius: 3px 3px 0 0;
+-moz-border-radius: 3px 3px 0 0;
+-webkit-border-radius: 3px 3px 0 0;
+/*text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.7);*/
+margin: 0;
+padding: 8px 18px;
+}
+
+.login_form h1 a {
+font-size: 90%;
+font-weight: normal;
+text-shadow: none;
+}
+
+
+
+ul.socialaccount_providers li {
+display: inline;
+}
+
+a.socialaccount_provider,span.socialaccount_provider {
+width: 48px;
+height: 48px;
+display: inline-block;
+text-indent: -9000px;
+
+}
+
+.socialaccount_ballot {
+margin: 0 15px 0 0;
+padding: 0 15px 0 0;
+width: 100%;
+float: left;
+display: block;
+position: relative;
+margin-left: 80px;
+
+}
+
+.socialaccount_ballot ul {
+margin: 0;
+}
+
+.socialaccount_provider.google {
+background: url(images/google.png) no-repeat bottom left;
+}
+.socialaccount_provider.facebook {
+background: url(images/facebook.png) no-repeat bottom left;
+}
+.socialaccount_provider.twitter {
+background: url(images/twitter.png) no-repeat bottom left;
+}
+.socialaccount_provider.yahoo {
+background: url(images/yahoo.png) no-repeat bottom left;
+}
+.socialaccount_provider.openid {
+background: url(images/openid.png) no-repeat bottom left;
+}
+.socialaccount_provider.linkedin {
+background: url(images/linkedin.png) no-repeat bottom left;
+}
+
+form.uniForm {
+background: #fff;
+}
+form.uniForm label {
+font-weight: bold;
+}
+
+form.uniForm .ctrlHolder {
+padding: 0.2em 1em;
+border: none;
+}
+form.uniForm .ctrlHolder.focused {
+background: #fce94f !important;
+}
+form.uniForm .buttonHolder {
+padding: .5em 1em 1em 1em;
+}
+form.uniForm .ctrlHolder.error {
+border: inherit;
+background: #ef2929;
+}
+form.uniForm .errorfield, form.uniForm .ctrlHolder.error input[type=text],form.uniForm .ctrlHolder.error input[type=password] {
+border: solid 2px #c00;
+}
+
+
+.uniForm fieldset {
+background: #eef;
+margin: 1em 0;
+}
+/* Needed? 
+form.uniForm label span {
+padding-left: .2em;
+color: #800;
+}
+*/
+form.uniForm .ctrlHolder.error .errorField, .uniForm #errorMsg  {
+font-size: 65%;
+font-weight: bold;
+color: #fff;
+}
+form.uniForm #errorMsg {
+background: #ef2929;
+}
+
+form.uniForm .ctrlHolder.error .errorField {
+background: transparent;
+padding: 0;
+}
+.uniForm #errorMsg {
+background: transparent;
+padding: 0;
+border: none !important;
+}
+form.uniForm .ctrlHolder.error label {
+color: #520000;
+}
+
+form.uniForm .ctrlHolder:first-child {
+padding-top: .5em;
+}
+
+form.login {
+width: 40em;
+}
+
+#main .uniForm .inlineLabels .formHint {
+margin: 0;
+margin-left: 47%; 
+}
+
+.associate{
+background: #eef;
+padding-left: 50px;
+height: auto;
+padding-bottom: 10px;
+}
+
+
+.add_form .formbody {
+padding: 2em;
+background-color: #fff;
+overflow: hidden;
+border-style: solid;
+border-width: 1px 1px 2px;
+border-color: #E9F1F4 #D8DEE2 #D8DEE2;
+border-radius: 0 0 3px 3px;
+-moz-border-radius: 0 0 3px 3px;
+-webkit-border-radius: 0 0 3px 3px;
+font-family: "Lucida Grande", Verdana, Arial, sans-serif;
+}
+
+#add {
+width: 95%;
+}
+
+.add_form {
+margin: auto;
+}
+
+* {
+margin: 0;
+padding: 0;
+}
+
+div {
+display: block;
+}
+
+.add_form h1 {
+font-weight: bold;
+color: #000;
+font-size: 14px;
+background: #DCDCDC;
+border: 1px solid #677C89;
+border-bottom-color: #6B808D;
+border-radius: 3px 3px 0 0;
+-moz-border-radius: 3px 3px 0 0;
+-webkit-border-radius: 3px 3px 0 0;
+margin: 0;
+padding: 8px 18px;
+}
+
+.add_form h1 a {
+font-size: 90%;
+font-weight: normal;
+text-shadow: none;
+}
+
+
+.register_form .formbody {
+padding: 2em;
+background-color: #fff;
+overflow: hidden;
+border-style: solid;
+border-width: 1px 1px 2px;
+border-color: #E9F1F4 #D8DEE2 #D8DEE2;
+border-radius: 0 0 3px 3px;
+-moz-border-radius: 0 0 3px 3px;
+-webkit-border-radius: 0 0 3px 3px;
+font-family: "Lucida Grande", Verdana, Arial, sans-serif;
+}
+
+#register {
+width: 600px;
+}
+
+.register_form {
+margin: auto;
+}
+
+* {
+margin: 0;
+padding: 0;
+}
+
+div {
+display: block;
+}
+
+.register_form h1 {
+/*color: #525252; */
+font-weight: bold;
+color: #000;
+font-size: 14px;
+background: #DCDCDC;
+border: 1px solid #677C89;
+border-bottom-color: #6B808D;
+border-radius: 3px 3px 0 0;
+-moz-border-radius: 3px 3px 0 0;
+-webkit-border-radius: 3px 3px 0 0;
+margin: 0;
+padding: 8px 18px;
+}
+
+.register_form h1 a {
+font-size: 90%;
+font-weight: normal;
+text-shadow: none;
+}
+
+
+
+ul.errorlist{
+	color:Red;
+	padding-left:25px;
+	margin-left: auto;
+	list-style-type: none;
+        background: url(images/icon_alert.gif) 5px .3em no-repeat;
+} 
+
+.errors input, .errors select, .errors textarea {
+    border: 1px solid red;
+}
+
+#form-error{
+    font-size: 12px !important;
+    display: block;
+    padding: 4px 5px 4px 25px;
+    margin: 0 0 3px 0;
+    border: 1px solid red;
+    color: red;
+    background: #ffc url(images/icon_error.gif) 5px .3em no-repeat;
+    -moz-border-radius: 3px 3px / 3px 3px;
+    border-radius: 3px 3px / 3px 3px;
+}
+
+#form-error ul li{
+    background: url(images/icon_alert.gif) 5px .15em no-repeat;
+    list-style-type: none;
+    padding-left: 20px;
+    line-height: 20px;	
+}
+
+/*
+.errorlist li {
+    font-size: 12px !important;
+    display: block;
+    padding: 4px 5px 4px 25px;
+    margin: 0 0 3px 0;
+    border: 1px solid red;
+    color: white;
+    background: red url(images/icon_alert.gif) 5px .3em no-repeat;
+    list-style-type: none;
+} */
+
+
+.product_form {
+overflow: hidden;
+border-style: solid;
+border-width: 1px 1px 1px;
+border-color: #E9F1F4 #D8DEE2 #D8DEE2;
+-moz-border-radius: 3px 3px / 3px 3px;
+border-radius: 3px 3px / 3px 3px;
+-webkit-border-radius: 3px 3px 3px 3px;
+font-family:verdana, helvetica; font-size:12px; 
+
+}
+
+#product {
+width: 99%;
+}
+
+.product_form {
+margin: auto;
+}
+
+.data {
+padding-left: 5px;
+padding-top: 5px;
+padding-right: 5px;
+}
+

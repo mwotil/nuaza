@@ -1,0 +1,83 @@
+from django import forms
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.localflavor import us
+from Nuaza.accounts.models import UserProfile
+from django.contrib.auth.models import User
+from marcofucci_utils import fields as marcofucci_fields
+from captcha.fields import CaptchaField
+
+class UserProfileForm(forms.ModelForm):
+    userImg = forms.ImageField(label = "Upload Your Photo", required=False)
+    url = forms.URLField(label = "User URL", required=False)
+
+    def __init__(self, *args, **kwargs):
+	        super(UserProfileForm, self).__init__(*args, **kwargs)
+		self.fields['First_Name'].error_messages['required'] = 'First Name required'
+		self.fields['First_Name'].error_messages['invalid'] = 'Enter a valid Value for First Name'
+
+		self.fields['email'].error_messages['required'] = 'Email Address Required'
+		self.fields['phone'].error_messages['required'] = 'Phone Number Required'
+		self.fields['shipping_name'].error_messages['required'] = 'Shipping Name required'
+		self.fields['shipping_address_1'].error_messages['required'] = 'Shipping Address Required'
+		self.fields['shipping_district'].error_messages['required'] = 'Shipping District Required'
+		self.fields['shipping_location'].error_messages['required'] = 'Shipping Location Required'
+		self.fields['billing_name'].error_messages['required'] = 'Billing Name required'
+		self.fields['billing_address_1'].error_messages['required'] = 'Billing Address required'
+		self.fields['billing_district'].error_messages['required'] = 'Billing District required'
+		self.fields['billing_location'].error_messages['required'] = 'Billing Location required'
+
+		self.fields['email'].error_messages['invalid'] = 'Enter a Valid Email Address'
+		self.fields['phone'].error_messages['invalid'] = 'Enter a Valid Phone Number'
+		self.fields['shipping_name'].error_messages['invalid'] = 'Enter a Valid Shipping Name'
+		self.fields['shipping_address_1'].error_messages['invalid'] = 'Enter a Valid Shipping Address'
+		self.fields['shipping_district'].error_messages['invalid'] = 'Enter a Valid Shipping District'
+		self.fields['shipping_location'].error_messages['invalid'] = 'Enter a Valid Shipping Location'
+		self.fields['billing_name'].error_messages['invalid'] = 'Enter a Valid Billing Name'
+		self.fields['billing_address_1'].error_messages['invalid'] = 'Enter a Valid Billing Address'
+		self.fields['billing_district'].error_messages['invalid'] = 'Enter a Valid Billing District'
+		self.fields['billing_location'].error_messages['invalid'] = 'Enter a Valid Billing Location'
+
+		self.fields['Last_Name'].error_messages['invalid'] = 'Enter a valid Value for Last Name'
+		self.fields['userImg'].error_messages['invalid'] = 'Upload a valid image'
+		self.fields['url'].error_messages['invalid'] = 'Enter a valid Value for the URL'
+	
+    class Meta:
+        model = UserProfile
+        exclude = ('user','activation_key','key_expires')
+
+"""    def clean_price(self):
+	if self.cleaned_data['Mobile_Phone_Contact'] <= 1000000000:
+		raise forms.ValidationError(' must be greater than zero.')
+	if self.cleaned_data['Mobile_Phone_Contact'] >= 300000000000:
+		raise forms.ValidationError(' must be greater than zero.')
+	return self.cleaned_data['Mobile_Phone_Contact']
+"""
+        
+class RegistrationForm(UserCreationForm):
+    """ subclass of Django's UserCreationForm, to handle customer registration with a required minimum length
+    and password strength. Also contains an additional field for capturing the email on registration.
+    
+    """
+    username = forms.RegexField(label=("User Name"), regex=r'^[\w.@+-]+$',
+        error_messages = {'invalid': ("This value may contain only letters, numbers and @/./+/-/_ characters."),'required': ("Your Username is Required"), 'min_length': ("User Name should be atleast three characters") ,'max_length': ("User Name should be less than 30 characters") }, min_length=3, max_length=30)
+
+    password1 = forms.RegexField(label="Password", regex=r'^(?=.*\W+).*$',error_messages ={'invalid': ("Password must be atleast six characters long and contain at least one non-alphanumeric character."), 'required': ("Please choose a Password"), 'min_length': ("Passwords should be atleast 6 characters") }, widget = forms.PasswordInput(attrs={}), min_length=6)
+
+    password2 = forms.RegexField(label="Password confirmation", regex=r'^(?=.*\W+).*$', error_messages = {'invalid': ("Password fields do not Match"),'required': ("Please confirm your Password")}, widget = forms.PasswordInput(attrs={}), min_length=6)
+
+    email = forms.EmailField(label="Email Address", max_length="50", error_messages = {'required':("Your Email Address is Required")})
+
+    #recaptcha = marcofucci_fields.ReCaptchaField()
+    captcha = CaptchaField(output_format=u'%(image)s %(hidden_field)s %(text_field)s', error_messages = {'required':("The captcha field is Required")} )
+
+    class Ajax:
+        rules = [
+            ('password2', {'equal_to_field': 'password1'})
+        ]
+        messages = [
+            ('password2', {'equal_to_field': "Password fields do not match."})
+        ]
+  
+
+
+

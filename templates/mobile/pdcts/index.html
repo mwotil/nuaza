@@ -1,0 +1,18 @@
+{% extends "catalog.html" %}
+
+{% load catalog_tags %}
+
+{% block content %}
+
+<div id="product" class="product_form">
+<div class ="data">
+
+{% product_list recently_viewed 'Your Recently Viewed Products' %}
+{% product_list view_recs 'Similar Products' %}
+{% product_list featured 'Featured Products' %}
+{% product_list bestseller 'Best Sellers' %}
+{% product_list search_recs 'Recommended For You' %}
+
+</div></div>
+
+{% endblock %}

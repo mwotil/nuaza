@@ -1,0 +1,39 @@
+{% extends "catalog.html" %}
+{% load pagination_tags %}
+{% load catalog_tags %}
+
+{% block content %}
+
+<div id="product" class="product_form">
+<div class ="data">
+
+  <div class="title_account">Available Products</div>
+
+{% autopaginate pdct_listing 4 %}
+{% paginate %}
+
+  {% for product_name in pdct_listing %}
+
+      	<div class="prod_box">
+        	<div class="top_prod_box"></div>
+            <div class="center_prod_box">            
+                 <div class="product_title"> <a href="{{product_name.get_absolute_url}}"> {{ product_name.product_name }} </a> </div>
+                 <div class="product_img"><a href="{{product_name.get_absolute_url}}"> <img src="{{ product_name.product_image.thumbnail.url }}" alt="No Preview" title="" border="0" /></a></div>
+                 <div class="prod_price"><span class="price">{{ product_name.price }}</span></div>                          
+            </div>
+            <div class="bottom_prod_box"></div>                                 
+        </div>
+
+
+	{% empty %}
+		No Products Available
+	{% endfor %}
+
+</div>
+
+<br/><br/>
+<div class="title_bid">Didn't Find What to buy?. Use our Search Option or directly <a href = "/bid-request/">send us a product bid Request</a>. You shall be notified when the product is available on Nuaza.</div>
+
+</div>
+
+{% endblock %}

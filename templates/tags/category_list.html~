@@ -1,0 +1,50 @@
+<script type="text/javascript">
+     $(document).ready(function(){ 
+        $("ul.sf-menu").superfish({ 
+            animation: {height:'show'},   // slide-down effect without fade-in 
+            delay:     1200               // 1.2 second delay on mouseout 
+        }); 
+    }); 
+ 
+</script>
+
+<div class="arrowlistmenu">
+  <div class="title_box">Product Categories</div>
+
+  <ul class="sf-menu sf-vertical">
+
+
+
+		{% for sc in supercategory %}
+			<li> <a href="#">{{ sc.supercategory_name }}</a> 
+
+				<ul>
+					{% for c in category %}
+					   {% if c.supercategory = sc %}
+					      <li> <a href="{{ c.get_absolute_url }}">{{ c.category_name }}</a> </li>
+					   {% endif %}
+					{% endfor %}
+				
+				</ul>
+
+			</li>
+		{% endfor %} 
+
+
+		<li> <a href="{% url "mysite.pdcts.views.show_shop" %}"> All Categories</a> 
+			<ul>
+				{% for c in category %}
+				   <li> <a href="{{ c.get_absolute_url }}">{{ c.category_name }}</a> </li>
+				{% endfor %}
+			</ul>	
+                </li>
+		
+
+  </ul>
+</div>
+
+
+
+
+
+

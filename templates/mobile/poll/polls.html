@@ -1,0 +1,58 @@
+{% load i18n %}
+{% if polls %}
+{% for p in polls %}
+<div id="form-{{p.id}}"> 
+
+<table>
+
+<tr> <td> {{p.question}} </td>
+
+<form> 
+	{% csrf_token %}
+	{% for a in p.get_answers %}
+	<td><input type="radio" name="answer" value="{{a.0}}"> {{a.1}} </td>
+	{% endfor %}
+	<td> <a class="submit" href="#{{p.id}}" id="submit-{{p.id}}"><span>Submit</span></a> </td>
+</form>
+</tr>
+</table>
+<div class="error_field"></div>
+
+</div>
+<div class="clear">&nbsp;</div>
+{% endfor %}
+<script>
+	// AJAX poll submission    
+	$(function() {
+
+		
+		$('#poll a.submit').click(function(){
+		 var poll_id = $(this).attr('id');
+		 var poll_id = poll_id.replace('submit-','')
+         //answer_id = $('#form-'+poll_id+' form input[type="radio"]:selected').val();
+		 var answer_id = $('#form-'+poll_id+" input[@name='answer']:checked").val();
+		 var form_data = false;
+		if(typeof answer_id != 'undefined'){
+		   post_url = "/poll/submit/" + poll_id+'/'+answer_id;
+            $('#form-'+poll_id).slideUp('fast', function(){  
+				//$('#latest_work .projects').css('background-image','url('+SITE_URL+'system/pyrocms/themes/vivaaspire/img/loading.gif)');
+				//send the request to the server
+				$.post(post_url, form_data, function(data, response, xhr) {
+					//$('#latest_work .projects').css('background-image','none');
+					$('#form-'+poll_id).html(data).slideDown('fast',function(){}); 
+                });
+				
+			});  
+		}  
+		else{
+		   $('#form-'+poll_id+ ' .error_field').html('<p class="error">{% trans "Please choose an answer" %}</p>'); 
+		}
+		  
+	})  
+		
+	}); 
+</script>
+{% else %}
+<p>{% trans "There are no polls published." %}
+{% endif %}
+                   

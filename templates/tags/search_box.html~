@@ -1,0 +1,17 @@
+{% load catalog_tags %}
+  <form id="search" action="{% url "search_results" %}" method="get">
+		
+	<div id = "search-find"> </div> 
+
+	<div class="search-parameters"> {{form.q}} {{form.cat}} <input type="submit"  value="" class="search-go" /></div>
+
+<!--	<div class="cb"></div> -->
+
+	<div class="cart_box"> {% cart_box request %} </div>
+
+     </form>
+
+
+
+
+
